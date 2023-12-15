@@ -5,8 +5,11 @@ USE flashscore;
 DROP TABLE IF EXISTS `matches`;
 CREATE TABLE `matches` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `match_date` DATE default NULL,
   `team1_id` int(11) default NULL,
+  `goals_scored_team1` int(11) default NULL,
   `team2_id` int(11) default NULL,
+  `goals_scored_team2` int(11) default NULL,
   PRIMARY KEY  (`id`),
   FOREIGN KEY (`team1_id`) REFERENCES `teams` (`id`),
   FOREIGN KEY (`team2_id`) REFERENCES `teams` (`id`)
@@ -66,33 +69,30 @@ CREATE TABLE `players` (
    FOREIGN KEY (`team_id`) REFERENCES `teams` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
--- TESTS
---INSERT INTO `teams` (`team_name`) VALUES
---('Team A'),
---('Team B'),
---('Team C');
---
---
---INSERT INTO `matches` (`team1_id`, `team2_id`) VALUES
---(1, 2),
---(2, 3),
---(3, 1);
---
---
---INSERT INTO `standings_five_seasons` (`team_id`,`table_position`, `matches_played`, `wins`, `losses`, `draws`, `goals_scored`, `goals_suffered`, `year`) VALUES
---(1, 3, 5, 3, 1, 1, 10, 5, '1967-11-17'),
---(2, 4, 5, 2, 2, 1, 8, 6, '1967-11-17'),
---(3, 5, 5, 1, 3, 1, 6, 9, '1967-11-17');
---
---
---INSERT INTO `form_last_five_matches` (`team_id`, `matches_played`, `wins`, `losses`, `draws`, `goals_scored`, `goals_suffered`) VALUES
---(1, 5, 3, 1, 1, 10, 5),
---(2, 5, 2, 2, 1, 8, 6),
---(3, 5, 1, 3, 1, 6, 9);
---
---
---INSERT INTO `players` (`team_id`, `player_name`, `injury`, `age`, `field_position`, `goals_scored`, `yellow_cards`, `red_cards`) VALUES
---(1, 'Player 1', 0, 25, 'Forward', 5, 2, 0),
---(2, 'Player 2', 1, 28, 'Midfielder', 3, 1, 0),
---(3, 'Player 3', 0, 23, 'Defender', 1, 0, 0);
+
+INSERT INTO `teams` (`team_name`) VALUES
+('Team A'),
+('Team B'),
+('Team C');
+
+
+
+
+
+INSERT INTO `standings_five_seasons` (`team_id`,`table_position`, `matches_played`, `wins`, `losses`, `draws`, `goals_scored`, `goals_suffered`, `year`) VALUES
+(1, 3, 5, 3, 1, 1, 10, 5, '1967-11-17'),
+(2, 4, 5, 2, 2, 1, 8, 6, '1967-11-17'),
+(3, 5, 5, 1, 3, 1, 6, 9, '1967-11-17');
+
+
+INSERT INTO `form_last_five_matches` (`team_id`, `matches_played`, `wins`, `losses`, `draws`, `goals_scored`, `goals_suffered`) VALUES
+(1, 5, 3, 1, 1, 10, 5),
+(2, 5, 2, 2, 1, 8, 6),
+(3, 5, 1, 3, 1, 6, 9);
+
+
+INSERT INTO `players` (`team_id`, `player_name`, `injury`, `age`, `field_position`, `goals_scored`, `yellow_cards`, `red_cards`) VALUES
+(1, 'Player 1', 0, 25, 'Forward', 5, 2, 0),
+(2, 'Player 2', 1, 28, 'Midfielder', 3, 1, 0),
+(3, 'Player 3', 0, 23, 'Defender', 1, 0, 0);
 
