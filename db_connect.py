@@ -14,20 +14,18 @@ DATABASE = config['DATABASE']  # Assuming your database is named 'flashscore'
 
 sql_file_path = 'flash.sql'
 
+
+connection = mysql.connector.connect(
+    host=HOST,
+    user=USER,
+    password=PASWORD
+)
+
+cursor = connection.cursor()
+
 try:
-    connection = mysql.connector.connect(
-        host=HOST,
-        user=USER,
-        password=PASWORD
-    )
-
     if connection.is_connected():
-        print(f'Connected to MySQL database: {database}')
 
-        # Create a cursor to execute SQL queries
-        cursor = connection.cursor()
-
-        # Read and execute SQL statements from the file
         with open(sql_file_path, 'r') as sql_file:
             sql_statements = sql_file.read()
 

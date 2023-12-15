@@ -1,18 +1,14 @@
-import time
-from selenium import webdriver
-from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
 import requests
 import re
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+import time
+import insert_database
+from datetime import datetime
 import json
 
-# RESPONSE_STATUS_200 = 200
-# URL = 'https://www.flashscore.com/football/england/premier-league/archive/'
-#
-# headers = {
-#     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit'
-#                   '/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36'
-# }
+
 
 with open('DMconf.json', 'r') as config_file:
     config = json.load(config_file)
@@ -23,6 +19,8 @@ HEADERS = config['HEADERS']
 INDICATOR = config['INDICATOR']
 WAIT5 = config['WAIT5']
 SLEEP1 = config['SLEEP1']
+
+DATE_FORMAT = '%d.%m.%Y'
 
 
 def get_list_of_seasons_url(url, headers_a):
@@ -85,10 +83,22 @@ def get_match_data(url_list):
     return matches_data_list
 
 
-def scraping_matches_results(seasons_url_list):
+def scraping_matches_results():
+    matches = []
+    seasons_url_list = get_list_of_seasons_url(URL, headers)
     short_season_url_list = [seasons_url_list[1]]
-    match_url_list = get_matches_url_list(short_season_url_list)
-    matches_data_list = get_match_data(match_url_list)
-    for match in matches_data_list:
-        print(f'Match date: {match[0]}   Home team: {match[1]}   Home team score: {match[2]}   Away team: {match[3]}   Away team score:{match[4]}')
-    return matches_data_list
+    match_url_list = get_matches_url_list(short_season_url_list, headers)
+    #test_match_url_list = match_url_list[0:4] test for a few matches to put on db
+    match_data_list = get_match_data(match_url_list, headers)
+    for match in match_data_list:
+        matches.append([
+            datetime.strptime(match[0], DATE_FORMAT),
+            match[1],
+            match[2],
+            match[3],
+            match[4]
+        ])
+        # print(f'Match date: {match[0]}   Home team: {match[1]}   Home team score: {match[2]}   Away team: {match[3]}   Away team score:{match[4]}')
+    print(matches)
+    insert_database.insert_matches(matches)
+
