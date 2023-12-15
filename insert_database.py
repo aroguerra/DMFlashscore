@@ -2,7 +2,7 @@ import mysql.connector
 
 host = 'localhost'
 user = 'root'
-password = 'abramito'
+password = '******'
 database = 'flashscore'
 sql_file_path = 'flash.sql'
 
@@ -79,5 +79,36 @@ def insert_players(players):
         teams_insert_query = """INSERT INTO `players` 
         (`team_id`, `player_name`, `injury`, `age`, `field_position`, `goals_scored`, `yellow_cards`, `red_cards`) 
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"""
+        cursor.executemany(teams_insert_query, result)
+        connection.commit()
+
+
+def get_team_matches(matches):
+    use_db()
+    for match in matches:
+        teams_insert_query = """
+            SELECT id
+            FROM teams
+            WHERE team_name = %s"""
+        try:
+            cursor.execute(teams_insert_query, (match[1],))
+            result1 = cursor.fetchone()
+            cursor.execute(teams_insert_query, (match[3],))
+            result2 = cursor.fetchone()
+            if result1 and result2:
+                match[1] = result1[0]
+                match[3] = result2[0]
+        except Exception as e:
+            print(f"Error: {e}")
+    return matches
+
+
+def insert_matches(matches):
+    use_db()
+    result = get_team_matches(matches)
+    with connection.cursor() as cursor:
+        teams_insert_query = """INSERT INTO `matches` 
+        (`match_date`, `team1_id`, `goals_scored_team1`, `team2_id`, `goals_scored_team2`) 
+        VALUES (%s, %s, %s, %s, %s)"""
         cursor.executemany(teams_insert_query, result)
         connection.commit()
