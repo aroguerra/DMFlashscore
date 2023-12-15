@@ -46,8 +46,8 @@ def get_season_info(season_url):
             #     f"Team Name:{team_stats[1]} matches:{team_stats[2]} W:{team_stats[3]} D:{team_stats[4]} L:{team_stats[5]} GD:{team_stats[6]}")
 
         if '2024' in season.text:
-            # anchor = driver.find_element(By.XPATH, '//a[contains(@href, "/form")]')  # button form
-            # get_team_form_5matches(anchor)
+            anchor = driver.find_element(By.XPATH, '//a[contains(@href, "/form")]')  # button form
+            get_team_form_5matches(anchor)
             anchor_squads = driver.find_elements(By.XPATH, '//a[@class="tableCellParticipant__name"]')
             get_team_page(anchor_squads)
 
@@ -60,11 +60,11 @@ def get_season_info(season_url):
 def get_team_page(anchor):
     for team in anchor:
         href_value = team.get_attribute('href')
-    driver = webdriver.Chrome()
-    driver.get(href_value)
-    time.sleep(2)
-    anchor_squad = driver.find_element(By.XPATH, '//a[contains(@href, "/squad")]')  # button form
-    get_players(anchor_squad, team.text)
+        driver = webdriver.Chrome()
+        driver.get(href_value)
+        time.sleep(2)
+        anchor_squad = driver.find_element(By.XPATH, '//a[contains(@href, "/squad")]')  # button form
+        get_players(anchor_squad, team.text)
 
 
 def get_players(anchor, team):
