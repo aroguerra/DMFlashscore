@@ -18,7 +18,7 @@
   "INDICATOR": 1,
   "HOST": "localhost",
   "USER": "root",
-  "PASWORD": "********",
+  "PASSWORD": "abramito",
   "DATABASE": "flashscore"
 }
 

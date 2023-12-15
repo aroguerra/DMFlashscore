@@ -32,7 +32,7 @@ def get_list_of_seasons_url(url, headers_a):
         seasons_url_list = ["https://www.flashscore.com" + line.get("href") for line in seasons_tag_list]
         return seasons_url_list
     else:
-        print(f'CRITICAL: Access to webpage denied! No response from webpage.\nStatus code: {imdb_response.status_code}')
+        print(f'CRITICAL: Access to webpage denied! No response from webpage.\nStatus code: {flashscore_archive_response.status_code}')
 
 
 def get_matches_url_list(url_list):
@@ -85,11 +85,11 @@ def get_match_data(url_list):
 
 def scraping_matches_results():
     matches = []
-    seasons_url_list = get_list_of_seasons_url(URL, headers)
-    short_season_url_list = [seasons_url_list[1]]
-    match_url_list = get_matches_url_list(short_season_url_list, headers)
-    #test_match_url_list = match_url_list[0:4] test for a few matches to put on db
-    match_data_list = get_match_data(match_url_list, headers)
+    seasons_url_list = get_list_of_seasons_url(URL, HEADERS)
+    short_season_url_list = [seasons_url_list[0]]
+    match_url_list = get_matches_url_list(short_season_url_list)
+    test_match_url_list = match_url_list[0:100]  # 100 matches to exemplify
+    match_data_list = get_match_data(test_match_url_list)
     for match in match_data_list:
         matches.append([
             datetime.strptime(match[0], DATE_FORMAT),

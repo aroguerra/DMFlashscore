@@ -9,7 +9,7 @@ with open('DMconf.json', 'r') as config_file:
 # Set your MySQL connection parameters
 HOST = config['HOST']
 USER = config['USER']
-PASWORD = config['PASWORD']
+PASSWORD = config['PASSWORD']
 DATABASE = config['DATABASE']  # Assuming your database is named 'flashscore'
 
 sql_file_path = 'flash.sql'
@@ -18,7 +18,8 @@ sql_file_path = 'flash.sql'
 connection = mysql.connector.connect(
     host=HOST,
     user=USER,
-    password=PASWORD
+    password=PASSWORD,
+    auth_plugin='caching_sha2_password'
 )
 
 cursor = connection.cursor()
