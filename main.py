@@ -7,7 +7,13 @@ import re
 import scraping_matches
 
 PLAYER_POSITION = 0
+RESPONSE_STATUS_200 = 200
+URL = 'https://www.flashscore.com/football/england/premier-league/archive/'
 
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit'
+                  '/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36'
+}
 season_urls = ['https://www.flashscore.com/standings/jDTEm9zs/I3O5jpB2/#/I3O5jpB2/table/overall',
                'https://www.flashscore.com/standings/nmP0jyrt/nunhS7Vn/#/nunhS7Vn/table/overall',
                'https://www.flashscore.com/standings/tdkpynmB/6kJqdMr2/#/6kJqdMr2/table/overall',
@@ -89,9 +95,10 @@ def get_team_form_5matches(anchor):
 
 
 def main():
+    seasons_url_list = scraping_matches.get_list_of_seasons_url(URL, headers)
     for url in season_urls:
         get_season_info(url)
-    scraping_matches.scraping_matches_results()
+    matches_data_list = scraping_matches.scraping_matches_results(seasons_url_list)
 
 
 if __name__ == "__main__":

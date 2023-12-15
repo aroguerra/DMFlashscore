@@ -1,3 +1,10 @@
+import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from bs4 import BeautifulSoup
+import requests
+import re
+
 RESPONSE_STATUS_200 = 200
 URL = 'https://www.flashscore.com/football/england/premier-league/archive/'
 
@@ -19,7 +26,7 @@ def get_list_of_seasons_url(url, headers_a):
         print(f'CRITICAL: Access to webpage denied! No response from webpage.\nStatus code: {imdb_response.status_code}')
 
 
-def get_matches_url_list(url_list, headers_a):
+def get_matches_url_list(url_list):
     match_url_list = []
     for link in url_list:
         indicator = 1
@@ -47,7 +54,7 @@ def get_matches_url_list(url_list, headers_a):
     return match_url_list
 
 
-def get_match_data(url_list, headers_a):
+def get_match_data(url_list):
     matches_data_list = []
     for link_url in url_list:
         driver = webdriver.Chrome()
@@ -67,10 +74,10 @@ def get_match_data(url_list, headers_a):
     return matches_data_list
 
 
-def scraping_matches_results():
-    seasons_url_list = get_list_of_seasons_url(URL, headers)
+def scraping_matches_results(seasons_url_list):
     short_season_url_list = [seasons_url_list[1]]
-    match_url_list = get_matches_url_list(short_season_url_list, headers)
-    match_data_list = get_match_data(match_url_list, headers)
-    for match in match_data_list:
+    match_url_list = get_matches_url_list(short_season_url_list)
+    matches_data_list = get_match_data(match_url_list)
+    for match in matches_data_list:
         print(f'Match date: {match[0]}   Home team: {match[1]}   Home team score: {match[2]}   Away team: {match[3]}   Away team score:{match[4]}')
+    return matches_data_list
