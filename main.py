@@ -3,6 +3,11 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import db_connect
 import insert_database
+from bs4 import BeautifulSoup
+import requests
+import re
+import scraping_matches
+
 
 PLAYER_POSITION = 0
 
@@ -134,6 +139,7 @@ def main():
     insert_database.insert_standings(standings)
     insert_database.insert_form_5matches(form_5matches)
     insert_database.insert_players(players_list)
+    scraping_matches.scraping_matches_results()
 
 
 if __name__ == "__main__":
