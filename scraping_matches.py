@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
 import requests
 import re
+import json
 
 # RESPONSE_STATUS_200 = 200
 # URL = 'https://www.flashscore.com/football/england/premier-league/archive/'
@@ -13,9 +14,15 @@ import re
 #                   '/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36'
 # }
 
-RESPONSE_STATUS_200 = DMconf['RESPONSE_STATUS_200']
-URL = DMconf['URL']
-HEADERS = DMcont['HEADERS']
+with open('DMconf.json', 'r') as config_file:
+    config = json.load(config_file)
+
+RESPONSE_STATUS_200 = config['RESPONSE_STATUS_200']
+URL = config['URL']
+HEADERS = config['HEADERS']
+INDICATOR = config['INDICATOR']
+WAIT5 = config['WAIT5']
+SLEEP1 = config['SLEEP1']
 
 
 def get_list_of_seasons_url(url, headers_a):
@@ -33,17 +40,17 @@ def get_list_of_seasons_url(url, headers_a):
 def get_matches_url_list(url_list):
     match_url_list = []
     for link in url_list:
-        indicator = 1
+        indicator = INDICATOR
         driver = webdriver.Chrome()
         driver.get(link + 'results/')
-        driver.implicitly_wait(5)
+        driver.implicitly_wait(WAIT5)
         driver.maximize_window()
         button = driver.find_element(By.CLASS_NAME, "event__more--static")
-        while indicator == 1:
+        while indicator == INDICATOR:
             driver.execute_script("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' });", button)
-            time.sleep(1)
+            time.sleep(SLEEP1)
             button.click()
-            time.sleep(1)
+            time.sleep(SLEEP1)
             season_response = driver.page_source
             season_html_tree = BeautifulSoup(season_response, 'html.parser')
             show_more_tag = season_html_tree.find('a', attrs={"class": "event__more"})
@@ -63,7 +70,7 @@ def get_match_data(url_list):
     for link_url in url_list:
         driver = webdriver.Chrome()
         driver.get(link_url)
-        driver.implicitly_wait(5)
+        driver.implicitly_wait(WAIT5)
         match_summary_response = driver.page_source
         driver.quit()
         match_html_tree = BeautifulSoup(match_summary_response, 'html5lib')

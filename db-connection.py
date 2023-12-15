@@ -1,10 +1,16 @@
 import mysql.connector
+import json
+
+
+with open('DMconf.json', 'r') as config_file:
+    config = json.load(config_file)
+
 
 # Set your MySQL connection parameters
-HOST = DMconf['HOST']
-USER = DMconf['USER']
-PASWORD = DMconf['PASWORD']
-DATABASE = DMconf['DATABASE']  # Assuming your database is named 'flashscore'
+HOST = config['HOST']
+USER = config['USER']
+PASWORD = config['PASWORD']
+DATABASE = config['DATABASE']  # Assuming your database is named 'flashscore'
 
 sql_file_path = 'flash.sql'
 

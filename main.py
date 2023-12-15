@@ -5,25 +5,33 @@ from bs4 import BeautifulSoup
 import requests
 import re
 import scraping_matches
+import json
 
-PLAYER_POSITION = DMconf['PLAYER_POSITION']
-RESPONSE_STATUS_200 = DMconf['RESPONSE_STATUS_200']
-URL = DMconf['URL']
 
-HEADERS = DMcont['HEADERS']
-season_urls = [DMconf['season_1'],
-               DMconf['season_2'],
-               DMconf['season_3'],
-               DMconf['season_4'],
-               DMconf['season_5']
+with open('DMconf.json', 'r') as config_file:
+    config = json.load(config_file)
+
+
+PLAYER_POSITION = config['PLAYER_POSITION']
+RESPONSE_STATUS_200 = config['RESPONSE_STATUS_200']
+URL = config['URL']
+
+HEADERS = config['HEADERS']
+season_urls = [config['season_1'],
+               config['season_2'],
+               config['season_3'],
+               config['season_4'],
+               config['season_5']
                ]
+SLEEP10 = config['SLEEP10']
+SLEEP2 = config['SLEEP2']
 
 
 def get_season_info(season_url):
     driver = webdriver.Chrome()  # Create a new WebDriver instance for each task
     try:
         driver.get(season_url)  # Perform Selenium interactions
-        time.sleep(10)
+        time.sleep(SLEEP10)
         season = driver.find_element(By.CLASS_NAME, 'dropdown__selectedValue')
         print(f'SEASON: {season.text}')
         standings_table = driver.find_elements(By.CLASS_NAME, 'ui-table__row')
@@ -49,7 +57,7 @@ def get_team_page(anchor):
         href_value = team.get_attribute('href')
         driver = webdriver.Chrome()
         driver.get(href_value)
-        time.sleep(2)
+        time.sleep(SLEEP2)
         anchor_squad = driver.find_element(By.XPATH, '//a[contains(@href, "/squad")]')  # button form
         get_players(anchor_squad)
 
@@ -58,7 +66,7 @@ def get_players(anchor):
     href_value = anchor.get_attribute('href')
     driver = webdriver.Chrome()
     driver.get(href_value)
-    time.sleep(2)
+    time.sleep(SLEEP2)
     players_table = driver.find_elements(By.CLASS_NAME, 'lineup--soccer')
     players_each_pos = players_table[PLAYER_POSITION].find_elements(By.CLASS_NAME, 'lineup__rows')
     for players in players_each_pos:
@@ -80,7 +88,7 @@ def get_team_form_5matches(anchor):
     href_value = anchor.get_attribute('href')
     driver2 = webdriver.Chrome()
     driver2.get(href_value)
-    time.sleep(10)
+    time.sleep(SLEEP10)
     print('LAST 5 MATCHES')
     standings_table = driver2.find_elements(By.CLASS_NAME, 'ui-table__row')
     for team_elements in standings_table:
