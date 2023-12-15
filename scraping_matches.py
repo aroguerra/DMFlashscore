@@ -6,14 +6,19 @@ from selenium.webdriver.common.by import By
 import time
 import insert_database
 from datetime import datetime
+import json
 
-RESPONSE_STATUS_200 = 200
-URL = 'https://www.flashscore.com/football/england/premier-league/archive/'
 
-headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit'
-                  '/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36'
-}
+
+with open('DMconf.json', 'r') as config_file:
+    config = json.load(config_file)
+
+RESPONSE_STATUS_200 = config['RESPONSE_STATUS_200']
+URL = config['URL']
+HEADERS = config['HEADERS']
+INDICATOR = config['INDICATOR']
+WAIT5 = config['WAIT5']
+SLEEP1 = config['SLEEP1']
 
 DATE_FORMAT = '%d.%m.%Y'
 
@@ -23,28 +28,27 @@ def get_list_of_seasons_url(url, headers_a):
     if flashscore_archive_response.status_code == RESPONSE_STATUS_200:
         archive_html_tree = BeautifulSoup(flashscore_archive_response.content, 'html5lib')
         seasons_tag_list = archive_html_tree.find_all('a', attrs={"class": "archive__text archive__text--clickable"},
-                                                      href=re.compile(r'/football/england/premier-league*'))
+                                                     href=re.compile(r'/football/england/premier-league*'))
         seasons_url_list = ["https://www.flashscore.com" + line.get("href") for line in seasons_tag_list]
         return seasons_url_list
     else:
-        print(
-            f'CRITICAL: Access to webpage denied! No response from webpage.\nStatus code: {imdb_response.status_code}')
+        print(f'CRITICAL: Access to webpage denied! No response from webpage.\nStatus code: {imdb_response.status_code}')
 
 
-def get_matches_url_list(url_list, headers_a):
+def get_matches_url_list(url_list):
     match_url_list = []
     for link in url_list:
-        indicator = 1
+        indicator = INDICATOR
         driver = webdriver.Chrome()
         driver.get(link + 'results/')
-        driver.implicitly_wait(5)
+        driver.implicitly_wait(WAIT5)
         driver.maximize_window()
         button = driver.find_element(By.CLASS_NAME, "event__more--static")
-        while indicator == 1:
+        while indicator == INDICATOR:
             driver.execute_script("arguments[0].scrollIntoView({ behavior: 'smooth', block: 'center' });", button)
-            time.sleep(1)
+            time.sleep(SLEEP1)
             button.click()
-            time.sleep(1)
+            time.sleep(SLEEP1)
             season_response = driver.page_source
             season_html_tree = BeautifulSoup(season_response, 'html.parser')
             show_more_tag = season_html_tree.find('a', attrs={"class": "event__more"})
@@ -54,19 +58,17 @@ def get_matches_url_list(url_list, headers_a):
         driver.quit()
         season_html_tree = BeautifulSoup(season_response, 'html.parser')
         match_tag_list = season_html_tree.find_all('div', id=re.compile(r'g_1_*'))
-        match_url_new_batch = [
-            'https://www.flashscore.com/match/' + match_tag.get("id").lstrip('g_1_') + '/#/match-summary/match-summary'
-            for match_tag in match_tag_list]
+        match_url_new_batch =['https://www.flashscore.com/match/' + match_tag.get("id").lstrip('g_1_') + '/#/match-summary/match-summary' for match_tag in match_tag_list]
         match_url_list += match_url_new_batch
     return match_url_list
 
 
-def get_match_data(url_list, headers_a):
+def get_match_data(url_list):
     matches_data_list = []
     for link_url in url_list:
         driver = webdriver.Chrome()
         driver.get(link_url)
-        driver.implicitly_wait(5)
+        driver.implicitly_wait(WAIT5)
         match_summary_response = driver.page_source
         driver.quit()
         match_html_tree = BeautifulSoup(match_summary_response, 'html5lib')

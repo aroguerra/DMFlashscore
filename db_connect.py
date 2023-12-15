@@ -1,14 +1,24 @@
 import mysql.connector
+import json
 
-host = 'localhost'
-user = 'root'
-password = '******'  # insert local password
+
+with open('DMconf.json', 'r') as config_file:
+    config = json.load(config_file)
+
+
+# Set your MySQL connection parameters
+HOST = config['HOST']
+USER = config['USER']
+PASWORD = config['PASWORD']
+DATABASE = config['DATABASE']  # Assuming your database is named 'flashscore'
+
 sql_file_path = 'flash.sql'
 
+
 connection = mysql.connector.connect(
-    host=host,
-    user=user,
-    password=password
+    host=HOST,
+    user=USER,
+    password=PASWORD
 )
 
 cursor = connection.cursor()
@@ -27,6 +37,7 @@ try:
             if query.strip():
                 cursor.execute(query)
 
+        # Commit the changes
         connection.commit()
 
         print('SQL file executed successfully.')

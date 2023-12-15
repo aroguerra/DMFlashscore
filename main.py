@@ -1,19 +1,32 @@
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from bs4 import BeautifulSoup
+import requests
+import re
 import db_connect
 import insert_database
 import scraping_matches
+import json
 
 
-PLAYER_POSITION = 0
+with open('DMconf.json', 'r') as config_file:
+    config = json.load(config_file)
 
-season_urls = ['https://www.flashscore.com/standings/jDTEm9zs/I3O5jpB2/#/I3O5jpB2/table/overall'
-               # 'https://www.flashscore.com/standings/nmP0jyrt/nunhS7Vn/#/nunhS7Vn/table/overall',
-               # 'https://www.flashscore.com/standings/tdkpynmB/6kJqdMr2/#/6kJqdMr2/table/overall',
-               # 'https://www.flashscore.com/standings/AJuiuwWt/zTRyeuJg/#/zTRyeuJg/table/overall',
-               # 'https://www.flashscore.com/standings/h2NtrDMq/CxZEqxa7/#/CxZEqxa7/table/overall'
+
+PLAYER_POSITION = config['PLAYER_POSITION']
+RESPONSE_STATUS_200 = config['RESPONSE_STATUS_200']
+URL = config['URL']
+
+HEADERS = config['HEADERS']
+season_urls = [config['season_1'],
+               config['season_2'],
+               config['season_3'],
+               config['season_4'],
+               config['season_5']
                ]
+SLEEP10 = config['SLEEP10']
+SLEEP2 = config['SLEEP2']
 
 TEAMS = []
 STANDINGS = []
@@ -21,11 +34,12 @@ FORM_5MATCHES = []
 PLAYERS_LIST = []
 
 
+
 def get_season_info(season_url):
     driver = webdriver.Chrome()  # Create a new WebDriver instance for each task
     try:
         driver.get(season_url)  # Perform Selenium interactions
-        time.sleep(10)
+        time.sleep(SLEEP10)
         season = driver.find_element(By.CLASS_NAME, 'dropdown__selectedValue')
         print(f'SEASON: {season.text}')
         standings_table = driver.find_elements(By.CLASS_NAME, 'ui-table__row')
@@ -64,7 +78,7 @@ def get_team_page(anchor):
         href_value = team.get_attribute('href')
         driver = webdriver.Chrome()
         driver.get(href_value)
-        time.sleep(2)
+        time.sleep(SLEEP2)
         anchor_squad = driver.find_element(By.XPATH, '//a[contains(@href, "/squad")]')  # button form
         get_players(anchor_squad, team.text)
 
@@ -73,7 +87,7 @@ def get_players(anchor, team):
     href_value = anchor.get_attribute('href')
     driver = webdriver.Chrome()
     driver.get(href_value)
-    time.sleep(2)
+    time.sleep(SLEEP2)
     players_table = driver.find_elements(By.CLASS_NAME, 'lineup--soccer')
     players_each_pos = players_table[PLAYER_POSITION].find_elements(By.CLASS_NAME, 'lineup__rows')
     for players in players_each_pos:
@@ -105,7 +119,7 @@ def get_team_form_5matches(anchor):
     href_value = anchor.get_attribute('href')
     driver2 = webdriver.Chrome()
     driver2.get(href_value)
-    time.sleep(10)
+    time.sleep(SLEEP10)
     print('LAST 5 MATCHES')
     standings_table = driver2.find_elements(By.CLASS_NAME, 'ui-table__row')
     for team_elements in standings_table:
