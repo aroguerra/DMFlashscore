@@ -1,6 +1,10 @@
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from bs4 import BeautifulSoup
+import requests
+import re
+import scraping_matches
 
 PLAYER_POSITION = 0
 
@@ -87,6 +91,7 @@ def get_team_form_5matches(anchor):
 def main():
     for url in season_urls:
         get_season_info(url)
+    scraping_matches.scraping_matches_results()
 
 
 if __name__ == "__main__":
