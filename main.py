@@ -58,15 +58,15 @@ def get_players(anchor):
         players_position = players.find_elements(By.CLASS_NAME, 'lineup__title')
         players_each_position = players.find_elements(By.CLASS_NAME, 'lineup__row')
         for player in players_each_position:
-            if players_position[PLAYER_POSITION].text != 'Coach':  # change coach logic add get coach (quick fix) add def get_coach
+            if players_position[
+                PLAYER_POSITION].text != 'Coach':  # change coach logic add get coach (quick fix) add def get_coach
                 print(players_position[PLAYER_POSITION].text)
                 player_stats = player.text.split('\n')
                 print(f"number:{player_stats[0]}")
                 print(
                     f"Name:{player_stats[1]} matches:{player_stats[2]} APP:{player_stats[3]} goals:{player_stats[4]} Yc:{player_stats[5]} Rc:{player_stats[6]}")
 
-
-# Find the matching SVG elements find_elements(By.XPATH, '//svg[@class="lineup__cell lineup__cell--absence injury"]')
+                # Find the matching SVG elements find_elements(By.XPATH, '//svg[@class="lineup__cell lineup__cell--absence injury"]')
 
 
 def get_team_form_5matches(anchor):
@@ -84,7 +84,6 @@ def get_team_form_5matches(anchor):
             f"Team Name:{team_stats[1]} matches:{team_stats[2]} W:{team_stats[3]} D:{team_stats[4]} L:{team_stats[5]} GD:{team_stats[6]}")
 
 
-# Define a list of URLs for tasks
 def main():
     for url in season_urls:
         get_season_info(url)
