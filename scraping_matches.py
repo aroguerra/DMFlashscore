@@ -5,13 +5,17 @@ from bs4 import BeautifulSoup
 import requests
 import re
 
-RESPONSE_STATUS_200 = 200
-URL = 'https://www.flashscore.com/football/england/premier-league/archive/'
+# RESPONSE_STATUS_200 = 200
+# URL = 'https://www.flashscore.com/football/england/premier-league/archive/'
+#
+# headers = {
+#     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit'
+#                   '/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36'
+# }
 
-headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit'
-                  '/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36'
-}
+RESPONSE_STATUS_200 = DMconf['RESPONSE_STATUS_200']
+URL = DMconf['URL']
+HEADERS = DMcont['HEADERS']
 
 
 def get_list_of_seasons_url(url, headers_a):

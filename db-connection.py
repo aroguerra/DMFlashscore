@@ -1,18 +1,18 @@
 import mysql.connector
 
 # Set your MySQL connection parameters
-host = 'localhost'
-user = 'root'
-password = '********'
-database = 'flashscore'  # Assuming your database is named 'flashscore'
+HOST = DMconf['HOST']
+USER = DMconf['USER']
+PASWORD = DMconf['PASWORD']
+DATABASE = DMconf['DATABASE']  # Assuming your database is named 'flashscore'
 
 sql_file_path = 'flash.sql'
 
 try:
     connection = mysql.connector.connect(
-        host=host,
-        user=user,
-        password=password
+        host=HOST,
+        user=USER,
+        password=PASWORD
     )
 
     if connection.is_connected():

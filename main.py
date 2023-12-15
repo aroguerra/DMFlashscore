@@ -6,19 +6,16 @@ import requests
 import re
 import scraping_matches
 
-PLAYER_POSITION = 0
-RESPONSE_STATUS_200 = 200
-URL = 'https://www.flashscore.com/football/england/premier-league/archive/'
+PLAYER_POSITION = DMconf['PLAYER_POSITION']
+RESPONSE_STATUS_200 = DMconf['RESPONSE_STATUS_200']
+URL = DMconf['URL']
 
-headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit'
-                  '/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36'
-}
-season_urls = ['https://www.flashscore.com/standings/jDTEm9zs/I3O5jpB2/#/I3O5jpB2/table/overall',
-               'https://www.flashscore.com/standings/nmP0jyrt/nunhS7Vn/#/nunhS7Vn/table/overall',
-               'https://www.flashscore.com/standings/tdkpynmB/6kJqdMr2/#/6kJqdMr2/table/overall',
-               'https://www.flashscore.com/standings/AJuiuwWt/zTRyeuJg/#/zTRyeuJg/table/overall',
-               'https://www.flashscore.com/standings/h2NtrDMq/CxZEqxa7/#/CxZEqxa7/table/overall'
+HEADERS = DMcont['HEADERS']
+season_urls = [DMconf['season_1'],
+               DMconf['season_2'],
+               DMconf['season_3'],
+               DMconf['season_4'],
+               DMconf['season_5']
                ]
 
 
@@ -95,7 +92,7 @@ def get_team_form_5matches(anchor):
 
 
 def main():
-    seasons_url_list = scraping_matches.get_list_of_seasons_url(URL, headers)
+    seasons_url_list = scraping_matches.get_list_of_seasons_url(URL, HEADERS)
     for url in season_urls:
         get_season_info(url)
     matches_data_list = scraping_matches.scraping_matches_results(seasons_url_list)
