@@ -46,6 +46,7 @@ def main():
     parser.add_argument("-players", "-p", help="fetch players data", action="store_true")
     parser.add_argument("-form", "-f", help="fetch form last 5 matches data", action="store_true")
     parser.add_argument("-teams", "-t", help="fetch teams data", action="store_true")
+    parser.add_argument("-predictions", "-p", help="fetch future fixtures predictions", action="store_true")
 
     #### WITH ARGPARSE ############
     args = parser.parse_args()
@@ -58,11 +59,13 @@ def main():
             standings.append(result[1])
             form_5matches.append(scraping_form_5matches.get_team_form_5matches(url))
             players_list.append(scraping_players.get_team_page(url))
-        matches.append(scraping_matches.scraping_matches_results())
+        matches = scraping_matches.scraping_matches_results()
+        predictions_list = scraping_api.fetch_fixtures_predictions()
         logger.info("Fetched all data successfully")
         insert_database.insert_teams(list(set(sum(teams, []))))
         insert_database.insert_standings(sum(standings, []))
-        insert_database.insert_matches(matches[0])  # check for more than season!!!!!!!!!!!
+        insert_database.insert_matches(matches)  # check for more than season!!!!!!!!!!!
+        insert_database.insert_future_fixtures_predictions(predictions_list)
         insert_database.insert_form_5matches(form_5matches[0])
         insert_database.insert_players(sum(players_list[0], []))
         logger.info("Inserted all in the database")
@@ -82,10 +85,10 @@ def main():
         for url in SEASON_URLS:
             result = scraping_seasons_standings.get_season_info(url)
             teams.append(result[0])
-        matches.append(scraping_matches.scraping_matches_results())
+        matches = scraping_matches.scraping_matches_results()
         logger.info("Fetched matches successfully")
         insert_database.insert_teams(list(set(sum(teams, []))))
-        insert_database.insert_matches(matches[0])  # check for more than season!!!!!!!!!!!!!!!
+        insert_database.insert_matches(matches)  # check for more than season!!!!!!!!!!!!!!!
         logger.info("Inserted teams and matches in the database")
     elif args.players:
         print('fetch players')
@@ -115,6 +118,16 @@ def main():
         logger.info("Fetched teams successfully")
         insert_database.insert_teams(list(set(sum(teams, []))))
         logger.info("Inserted teams in the database")
+    elif args.predictions:
+        print('fetch fixtures predictions')
+        for url in season_urls:
+            result = scraping_seasons_standings.get_season_info(url)
+            teams.append(result[0])
+        predictions_list = scraping_api.fetch_fixtures_predictions()
+        logger.info("Fetched future fixtures predictions successfully")
+        insert_database.insert_teams(list(set(sum(teams, []))))
+        insert_database.insert_future_fixtures_predictions(predictions_list)
+        logger.info("Inserted teams and future fixtures predictions in the database")
 
     else:
         logger.error("Requires an argument to perform an action")

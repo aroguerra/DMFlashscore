@@ -1,4 +1,3 @@
-
 {
   "SEASON_URLS": [
                   "https://www.flashscore.com/standings/jDTEm9zs/I3O5jpB2/#/I3O5jpB2/table/overall",
@@ -26,5 +25,17 @@
   "COACH_LIST": "Coach",
   "DATE_FORMAT": "%d.%m.%Y",
   "SQL_FILE_PATH": "flash.sql"
+  "DAYS": 20,
+	"RESPONSE_DATA_LIST": "data",
+	"ZERO_SLICING": 0,
+	"ONE_SLICING": 1,
+	"TEAMS_NAME": "name",
+	"PATERN": "r' vs '",
+	"PREDICTIONS": "predictions",
+	"HOME_PROBABILITY": "home", 
+	"AWAY_PROBABILITY": "away",
+	"DRAW_PROBABILITY": "draw", 
+	"PAGINATION": "pagination",
+	"NEXT_PAGE": "next_page"
 }
 

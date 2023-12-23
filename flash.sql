@@ -70,6 +70,20 @@ CREATE TABLE `players` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
+DROP TABLE IF EXISTS `future_fixtures_predictions_data`;
+CREATE TABLE `future_fixtures_predictions_data` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `home_team_id` int(11),
+   `away_team_id` int(11),
+   `prediction_home_team_wins` float
+   `prediction_draw` float
+   `prediction_away_team_wind` float
+   PRIMARY KEY (`id`),
+   FOREIGN KEY (`home_team_id`) REFERENCES `teams` (`id`)
+   FOREIGN KEY (`away_team_id`) REFERENCES `teams` (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
 INSERT INTO `teams` (`team_name`) VALUES
 ('Team A'),
 ('Team B'),
