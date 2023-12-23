@@ -39,7 +39,7 @@ def get_list_of_seasons_url(url, headers_a):
         logger.debug("Scrapped seasons urls pages of matches successfully")
         return seasons_url_list
     else:
-        print(
+        logger.error(
             f'CRITICAL: Access to webpage denied! No response from webpage.\nStatus code: {flashscore_archive_response.status_code}')
 
 

@@ -52,6 +52,7 @@ def main():
     parser.add_argument("-players", "-p", help="fetch players data", action="store_true")
     parser.add_argument("-form", "-f", help="fetch form last 5 matches data", action="store_true")
     parser.add_argument("-teams", "-t", help="fetch teams data", action="store_true")
+    parser.add_argument("-predictions", "-p", help="fetch future fixtures predictions", action="store_true")
 
     #### WITH ARGPARSE ############
     args = parser.parse_args()
