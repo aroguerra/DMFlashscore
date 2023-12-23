@@ -9,7 +9,6 @@ import scraping_players
 import json
 import logging
 
-
 logger = logging.getLogger('flashscore')
 logger.setLevel(logging.DEBUG)
 
@@ -23,9 +22,6 @@ logger.addHandler(file_handler)
 with open('DMconf.json', 'r') as config_file:
     config = json.load(config_file)
 
-PLAYER_POSITION = config['PLAYER_POSITION']
-RESPONSE_STATUS_200 = config['RESPONSE_STATUS_200']
-URL = config['URL']
 SEASON_URLS = config['SEASON_URLS']
 HEADERS = config['HEADERS']
 SLEEP10 = config['SLEEP10']
@@ -46,7 +42,7 @@ def main():
     parser.add_argument("-players", "-p", help="fetch players data", action="store_true")
     parser.add_argument("-form", "-f", help="fetch form last 5 matches data", action="store_true")
     parser.add_argument("-teams", "-t", help="fetch teams data", action="store_true")
-    parser.add_argument("-predictions", "-p", help="fetch future fixtures predictions", action="store_true")
+    parser.add_argument("-predictions", "-pd", help="fetch future fixtures predictions", action="store_true")
 
     #### WITH ARGPARSE ############
     args = parser.parse_args()
@@ -153,5 +149,3 @@ def main():
     # insert_database.insert_form_5matches(form_5matches[0])
     # insert_database.insert_players(sum(players_list[0], []))
     # insert_database.insert_matches(matches[0]) # check for more than season
-
-

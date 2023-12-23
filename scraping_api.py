@@ -41,7 +41,7 @@ def fetch_fixtures_predictions():
             response_data = response_dict[RESPONSE_DATA_LIST]
             for data in response_data:
                 single_fixture_prediction = []
-                match_pattern = [(match.start(), match.end()) for match in re.finditer(PATTERN, data[TEAMS_NAME])]
+                match_pattern = [(match.start(), match.end()) for match in re.finditer(r' vs ', data[TEAMS_NAME])]
                 single_fixture_prediction.append(
                     data[TEAMS_NAME][ZERO_SLICING:match_pattern[ZERO_SLICING][ZERO_SLICING]])
                 single_fixture_prediction.append(data[TEAMS_NAME][match_pattern[ZERO_SLICING][ONE_SLICING]::])
