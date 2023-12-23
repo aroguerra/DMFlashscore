@@ -1,6 +1,7 @@
 import argparse
 import db_connect
 import insert_database
+import scraping_api
 import scraping_matches
 import scraping_seasons_standings
 import scraping_form_5matches
@@ -38,7 +39,6 @@ def main():
     standings = []
     form_5matches = []
     players_list = []
-    matches = []
     parser = argparse.ArgumentParser()
     parser.add_argument("-all", "-a", help="fetch all scrapped data", action="store_true")
     parser.add_argument("-seasons", "-s", help="fetch last 5 seasons data", action="store_true")
@@ -120,7 +120,7 @@ def main():
         logger.info("Inserted teams in the database")
     elif args.predictions:
         print('fetch fixtures predictions')
-        for url in season_urls:
+        for url in SEASON_URLS:
             result = scraping_seasons_standings.get_season_info(url)
             teams.append(result[0])
         predictions_list = scraping_api.fetch_fixtures_predictions()

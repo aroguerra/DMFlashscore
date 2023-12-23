@@ -26,16 +26,16 @@
   "DATE_FORMAT": "%d.%m.%Y",
   "SQL_FILE_PATH": "flash.sql"
   "DAYS": 20,
-	"RESPONSE_DATA_LIST": "data",
-	"ZERO_SLICING": 0,
-	"ONE_SLICING": 1,
-	"TEAMS_NAME": "name",
-	"PATERN": "r' vs '",
-	"PREDICTIONS": "predictions",
-	"HOME_PROBABILITY": "home", 
-	"AWAY_PROBABILITY": "away",
-	"DRAW_PROBABILITY": "draw", 
-	"PAGINATION": "pagination",
-	"NEXT_PAGE": "next_page"
+  "RESPONSE_DATA_LIST": "data",
+  "ZERO_SLICING": 0,
+  "ONE_SLICING": 1,
+  "TEAMS_NAME": "name",
+  "PATTERN": "r' vs '",
+  "PREDICTIONS": "predictions",
+  "HOME_PROBABILITY": "home",
+  "AWAY_PROBABILITY": "away",
+  "DRAW_PROBABILITY": "draw",
+  "PAGINATION": "pagination",
+  "NEXT_PAGE": "next_page"
 }
 

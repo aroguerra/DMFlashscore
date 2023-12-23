@@ -174,7 +174,7 @@ def insert_future_fixtures_predictions(predictions_list):
                             FROM teams
                             WHERE teams_name 
                             LIKE CONCAT(%, %s, %)"""
-        cursur.execute(teams_id_query, (predictions_list[0],))
+        cursor.execute(teams_id_query, (predictions_list[0],))
         result1 = cursor.fetchone()
         cursor.execute(teams_id_query, (predictions_list[1],))
         result2 = cursor.fetchone()
@@ -188,5 +188,3 @@ def insert_future_fixtures_predictions(predictions_list):
     cursor.executemany(predictions_insert_query, predictions_list)
     connection.commit()
     logger.debug("SQL query executed successfully")
-
-cursor.close()
