@@ -26,9 +26,9 @@ logger = logging.getLogger('flashscore')
 
 def fetch_fixtures_predictions():
     """
-    
-    :return:
-    :rtype:
+    retrieves predections for future fixtures on the next 20 days.
+    :return: list of lists, where each list represents one future fixture, with the names of the participating teams and
+    match results probabilities.
     """
     current_date = datetime.now().date()
     end_date = current_date + timedelta(days=DAYS)

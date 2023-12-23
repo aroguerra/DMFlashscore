@@ -24,11 +24,12 @@ logger = logging.getLogger('flashscore')
 
 def get_list_of_seasons_url(url, headers_a):
     """
-    :param url:
-    :type url:
-    :param headers_a:
-    :type headers_a:
-    :return:
+    retrieves a list of urls including the urls for all the seasons web pages.
+    :param url: the url address for the Flashscore archive web page.
+    :type url: str
+    :param headers_a: a header for requests module to work around webpage scraping limitations
+    :type headers_a: str
+    :return: list of urls for each each season web page
     """
     flashscore_archive_response = requests.get(url, headers=headers_a)
     if flashscore_archive_response.status_code == RESPONSE_STATUS_200:
@@ -45,9 +46,10 @@ def get_list_of_seasons_url(url, headers_a):
 
 def get_matches_url_list(url_list):
     """
-    :param url_list:
-    :type url_list:
-    :return:
+    retrives a list of urls for all the season's matches web pages.
+    :param url_list: list of season's urls
+    :type url_list: list
+    :return: list of urls for each season's match webpage.
     """
     match_url_list = []
     for link in url_list:
@@ -81,9 +83,10 @@ def get_matches_url_list(url_list):
 
 def get_match_data(url_list):
     """
-    :param url_list:
-    :type url_list:
-    :return:
+    retrieves match date, participanting teams and match scores for each match
+    :param url_list: list of matches web pages urls
+    :type url_list: list
+    :return: a list of lists, where each list represents a match with the match date, participating teams and scores.
     """
     matches_data_list = []
     for link_url in url_list:
@@ -107,8 +110,9 @@ def get_match_data(url_list):
 
 def scraping_matches_results():
     """
-    Retrieves a list of all the matches for each season
-    :return: a list of matches of the season
+    Retrieves a list of all the matches and their final scores.
+    :return: a list of lists, where each list represents a single match withe the event date, the participaiting
+    teams and the scores
     """
     matches = []
     seasons_url_list = get_list_of_seasons_url(URL, HEADERS)
