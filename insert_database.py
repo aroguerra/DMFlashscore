@@ -165,3 +165,28 @@ def insert_matches(matches_list):
         cursor.executemany(teams_insert_query, result)
         connection.commit()
         logger.debug("SQL query executed successfully")
+
+
+def insert_future_fixtures_predictions(predictions_list):
+    use_db()
+    for ind, prediction in enumerate(predictions_list):
+        teams_id_query = """SELECT id
+                            FROM teams
+                            WHERE teams_name 
+                            LIKE CONCAT(%, %s, %)"""
+        cursur.execute(teams_id_query, (predictions_list[0],))
+        result1 = cursor.fetchone()
+        cursor.execute(teams_id_query, (predictions_list[1],))
+        result2 = cursor.fetchone()
+        if result1 and result2:
+            prediction[0] = result1[0]
+            prediction[1] = result2[0]
+            predictions_list[ind] = prediction
+    predictions_insert_query = """INSERT INTO `future_fixtures_predictions_data`
+    (`home_team_id`, `away_team_id`, `prediction_home_team_wins`, `prediction_draw`, `prediction_away_team_wind`)
+    VALUES (%s, %s, %s, %s, %s)"""
+    cursor.executemany(predictions_insert_query, predictions_list)
+    connection.commit()
+    logger.debug("SQL query executed successfully")
+
+cursor.close()
