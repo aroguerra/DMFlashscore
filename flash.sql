@@ -76,9 +76,6 @@ INSERT INTO `teams` (`team_name`) VALUES
 ('Team C');
 
 
-
-
-
 INSERT INTO `standings_five_seasons` (`team_id`,`table_position`, `matches_played`, `wins`, `losses`, `draws`, `goals_scored`, `goals_suffered`, `year`) VALUES
 (1, 3, 5, 3, 1, 1, 10, 5, '1967-11-17'),
 (2, 4, 5, 2, 2, 1, 8, 6, '1967-11-17'),

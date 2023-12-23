@@ -18,7 +18,11 @@
   "INDICATOR": 1,
   "HOST": "localhost",
   "USER": "root",
-  "PASSWORD": "abramito",
-  "DATABASE": "flashscore"
+  "PASSWORD": "*******",
+  "DATABASE": "flashscore",
+  "SEASON_YEAR": "2024",
+  "COACH_LIST": "Coach",
+  "DATE_FORMAT": "%d.%m.%Y",
+  "SQL_FILE_PATH": "flash.sql"
 }
 

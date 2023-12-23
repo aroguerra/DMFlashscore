@@ -1,19 +1,23 @@
 import mysql.connector
 import json
+import logging
+
+logger = logging.getLogger('flashscore')
+logger.setLevel(logging.DEBUG)
+
+formatter = logging.Formatter(
+    '%(asctime)s-%(levelname)s-FILE:%(filename)s-FUNC:%(funcName)s-LINE:%(lineno)d-%(message)s')
+
 
 
 with open('DMconf.json', 'r') as config_file:
     config = json.load(config_file)
 
-
-# Set your MySQL connection parameters
 HOST = config['HOST']
 USER = config['USER']
 PASSWORD = config['PASSWORD']
-DATABASE = config['DATABASE']  # Assuming your database is named 'flashscore'
-
-sql_file_path = 'flash.sql'
-
+DATABASE = config['DATABASE']
+SQL_FILE_PATH = config['SQL_FILE_PATH']
 
 connection = mysql.connector.connect(
     host=HOST,
@@ -24,32 +28,35 @@ connection = mysql.connector.connect(
 
 cursor = connection.cursor()
 
-try:
-    if connection.is_connected():
 
-        with open(sql_file_path, 'r') as sql_file:
-            sql_statements = sql_file.read()
+def create_db():
+    """
+    Runs the flash.sql file in order to create and set the flashscore Database.
+    It connects to mysql through the variables given on the DMconf.json file:
+    host=HOST
+    user=USER
+    password=PASSWORD
+    """
+    try:
+        if connection.is_connected():
+            with open(SQL_FILE_PATH, 'r') as sql_file:
+                sql_statements = sql_file.read()
 
-        # Split SQL statements into individual queries
-        queries = sql_statements.split(';')
+            queries = sql_statements.split(';')
 
-        # Execute each query one by one
-        for query in queries:
-            if query.strip():
-                cursor.execute(query)
+            for query in queries:
+                if query.strip():
+                    cursor.execute(query)
 
-        # Commit the changes
-        connection.commit()
+            connection.commit()
+            logger.info("SQL file executed successfully")
+            cursor.close()
 
-        print('SQL file executed successfully.')
+    except mysql.connector.Error as e:
+        logger.error(f"SQL file not executed: {e}")
+        print(f'Error: {e}')
 
-        # Close the cursor and connection
-        cursor.close()
-
-except mysql.connector.Error as e:
-    print(f'Error: {e}')
-
-finally:
-    if connection.is_connected():
-        connection.close()
-        print('MySQL connection closed.')
+    finally:
+        if connection.is_connected():
+            connection.close()
+            print('MySQL connection closed.')
