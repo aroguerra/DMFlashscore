@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import json
 import logging
+from bs4 import BeautifulSoup
 
 with open('DMconf.json', 'r') as config_file:
     config = json.load(config_file)
@@ -63,12 +64,14 @@ def get_players(anchor, team):
         players_each_position = players.find_elements(By.CLASS_NAME, 'lineup__row')
         for player in players_each_position:
             if players_position[PLAYER_POSITION].text != COACH_LIST:
-                # player.find_elements(By.XPATH, '//svg[@class="lineup__cell lineup__cell--absence injury"]')
+                player_html = player.get_attribute('innerHTML')
+                soup = BeautifulSoup(player_html, 'html.parser')
+                injury = 1 if soup.find('svg') else 0
                 player_stats = player.text.split('\n')
                 team_players.append([
                     team,
                     player_stats[1],
-                    0,
+                    injury,
                     player_stats[2],
                     players_position[PLAYER_POSITION].text,
                     player_stats[4],

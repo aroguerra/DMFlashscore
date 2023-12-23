@@ -25,14 +25,8 @@ with open('DMconf.json', 'r') as config_file:
 PLAYER_POSITION = config['PLAYER_POSITION']
 RESPONSE_STATUS_200 = config['RESPONSE_STATUS_200']
 URL = config['URL']
-
+SEASON_URLS = config['SEASON_URLS']
 HEADERS = config['HEADERS']
-season_urls = [config['season_1']
-               # config['season_2']
-               # config['season_3']
-               # config['season_4'],
-               # config['season_5']
-               ]
 SLEEP10 = config['SLEEP10']
 SLEEP2 = config['SLEEP2']
 SEASON_YEAR = config['SEASON_YEAR']
@@ -59,7 +53,7 @@ def main():
     db_connect.create_db()
     if args.all:
         print('fetch all')
-        for url in season_urls:
+        for url in SEASON_URLS:
             result = scraping_seasons_standings.get_season_info(url)
             teams.append(result[0])
             standings.append(result[1])
@@ -77,7 +71,7 @@ def main():
         logger.info("Inserted all in the database")
     elif args.seasons:
         print('fetch standings')
-        for url in season_urls:
+        for url in SEASON_URLS:
             result = scraping_seasons_standings.get_season_info(url)
             teams.append(result[0])
             standings.append(result[1])
@@ -88,7 +82,7 @@ def main():
         logger.info("Inserted teams and seasons in the database")
     elif args.matches:
         print('fetch matches')
-        for url in season_urls:
+        for url in SEASON_URLS:
             result = scraping_seasons_standings.get_season_info(url)
             teams.append(result[0])
         matches = scraping_matches.scraping_matches_results()
@@ -98,7 +92,7 @@ def main():
         logger.info("Inserted teams and matches in the database")
     elif args.players:
         print('fetch players')
-        for url in season_urls:
+        for url in SEASON_URLS:
             result = scraping_seasons_standings.get_season_info(url)
             teams.append(result[0])
             players_list.append(scraping_players.get_team_page(url))
@@ -108,7 +102,7 @@ def main():
         logger.info("Inserted teams and players in the database")
     elif args.form:
         print('fetch form last 5 matches')
-        for url in season_urls:
+        for url in SEASON_URLS:
             result = scraping_seasons_standings.get_season_info(url)
             teams.append(result[0])
             form_5matches.append(scraping_form_5matches.get_team_form_5matches(url))
@@ -118,7 +112,7 @@ def main():
         logger.info("Inserted teams and form of last 5 matches in the database")
     elif args.teams:
         print('fetch teams')
-        for url in season_urls:
+        for url in SEASON_URLS:
             result = scraping_seasons_standings.get_season_info(url)
             teams.append(result[0])
         logger.info("Fetched teams successfully")
@@ -141,7 +135,7 @@ def main():
 
     #### WITHOUT ARGPARSE ############
     # db_connect.create_db()
-    # for url in season_urls:
+    # for url in SEASON_URLS:
     #     result = scraping_seasons_standings.get_season_info(url)
     #     teams.append(result[0])
     #     # standings.append(result[1])
@@ -161,5 +155,3 @@ def main():
     # insert_database.insert_matches(matches[0]) # check for more than season
 
 
-if __name__ == "__main__":
-    main()
