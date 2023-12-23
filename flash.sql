@@ -72,15 +72,15 @@ CREATE TABLE `players` (
 
 DROP TABLE IF EXISTS `future_fixtures_predictions_data`;
 CREATE TABLE `future_fixtures_predictions_data` (
-   `id` int(11) NOT NULL AUTO_INCREMENT,
-   `home_team_id` int(11),
-   `away_team_id` int(11),
-   `prediction_home_team_wins` float
-   `prediction_draw` float
-   `prediction_away_team_wind` float
-   PRIMARY KEY (`id`),
-   FOREIGN KEY (`home_team_id`) REFERENCES `teams` (`id`)
-   FOREIGN KEY (`away_team_id`) REFERENCES `teams` (`id`)
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `home_team_id` varchar(200) default NULL,
+    `away_team_id` varchar(200) default NULL,
+    `prediction_home_team_wins` FLOAT default NULL,
+    `prediction_draw` FLOAT default NULL,
+    `prediction_away_team_wind` FLOAT default NULL,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`home_team_id`) REFERENCES `teams` (`id`),
+    FOREIGN KEY (`away_team_id`) REFERENCES `teams` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 

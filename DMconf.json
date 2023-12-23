@@ -1,3 +1,4 @@
+
 {
   "SEASON_URLS": [
                   "https://www.flashscore.com/standings/jDTEm9zs/I3O5jpB2/#/I3O5jpB2/table/overall",
@@ -24,7 +25,7 @@
   "SEASON_YEAR": "2024",
   "COACH_LIST": "Coach",
   "DATE_FORMAT": "%d.%m.%Y",
-  "SQL_FILE_PATH": "flash.sql"
+  "SQL_FILE_PATH": "flash.sql",
   "DAYS": 20,
   "RESPONSE_DATA_LIST": "data",
   "ZERO_SLICING": 0,
