@@ -18,7 +18,7 @@ Either download the zip folder and extract it or clone the repository into your 
 The DMFlashScore has a CLI based user interface.
 By running the command
 ```bash
-./DMFlashScore.py main.py *command*
+./DMflashscore.py
 ```
  command | action |
 |--------------|-------------------------------|
@@ -29,9 +29,13 @@ By running the command
 | -players, -p | fetch players data            |
 | -form, -f    | fetch form last 5 matches data |
 | -teams, -t   | fetch teams data              |
+| -predictions, -p| fetch predictions for future fixtures|
 
-This command will activate scrapping based data mining process and save the scrapped data into a mysql database.
-The Database will create the tables:
+This comand will activate scraping based data mining proces which at its end a dashboard, visualizing stastical data, will be presented.
+
+![https://i.pinimg.com/236x/ca/82/7b/ca827b3dcc03f503feb44dcfb9932c3e.jpg](https://i.pinimg.com/236x/ca/82/7b/ca827b3dcc03f503feb44dcfb9932c3e.jpg)
+
+The scraped data will also be saved into a Database with the following tables:
 
 | Tables_in_flashscore   |
 |------------------------|
@@ -41,8 +45,10 @@ The Database will create the tables:
 | standings_five_seasons |
 | teams                  |
 
+The data base ERD design schema is presented in the folowing figure:
 
+![Example Image](./ERD.jpg)
 
 ## Description
 
-DMFlashScore is a [Selenium](https://pypi.org/project/selenium/) based data mining application, which scrapes statistical data from the Flashscore API and visually presents it to the potential gambler. While the request and grequest Python modules are used in this application to access the webpages, the Selenium Python module is used to fined and fetch relevant data objects. The presentation of the data is done by a ReDash created dashboard, and the user interface is CLI based.
+DMFlashScore is a [Selenium](https://pypi.org/project/selenium/) based data mining application, which scrapes statistical data from the Flashscore website and Sportmonks API and visualy presents it to the potencial gambller. While the selenium Python module is used in this application to access the Flashscore webpages and find and fetch the relevant data objects, the requests Python module is used to access the Spotmonks API. The presntation of the data is done by a ReDash created dashbourd, and the user interface is CLI based.
