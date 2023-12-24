@@ -18,18 +18,18 @@ Either download the zip folder and extract it or clone the repository into your 
 The DMFlashScore has a CLI based user interface.
 By running the command
 ```bash
-./DMflashscore.py
+./DMflashscore.py *command*
 ```
- command | action |
-|--------------|-------------------------------|
-| -h, --help   | show this help message and exit |
-| -all, -a     | fetch all scraped data        |
-| -seasons, -s | fetch last 5 seasons data     |
-| -matches, -m | fetch all scraped data        |
-| -players, -p | fetch players data            |
-| -form, -f    | fetch form last 5 matches data |
-| -teams, -t   | fetch teams data              |
-| -predictions, -p| fetch predictions for future fixtures|
+ command           | action |
+|-------------------|-------------------------------|
+| -h, --help        | show this help message and exit |
+| -all, -a          | fetch all scraped data        |
+| -seasons, -s      | fetch last 5 seasons data     |
+| -matches, -m      | fetch all scraped data        |
+| -players, -p      | fetch players data            |
+| -form, -f         | fetch form last 5 matches data |
+| -teams, -t        | fetch teams data              |
+| -predictions, -pd | fetch predictions for future fixtures|
 
 This comand will activate scraping based data mining proces which at its end a dashboard, visualizing stastical data, will be presented.
 

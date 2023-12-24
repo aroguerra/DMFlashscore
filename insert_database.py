@@ -169,6 +169,11 @@ def insert_matches(matches_list):
 
 
 def insert_future_fixtures_predictions(predictions_list):
+    """
+    SQL query to insert predictions from API on database
+    :param predictions_list: list of predictions of matches
+    :type predictions_list: list
+    """
     use_db()
     predictions_insert_query = """INSERT INTO `future_fixtures_predictions_data`
     (`home_team_id`, `away_team_id`, `prediction_home_team_wins`, `prediction_draw`, `prediction_away_team_wind`)
@@ -180,9 +185,12 @@ def insert_future_fixtures_predictions(predictions_list):
 
 
 def get_teams_ids():
-    teams_id_query = """ UPDATE teams
-                        SET team_name = REPLACE(REPLACE(team_name, 'Utd', 'United'), 'Wolves', 'Wolverhampton')
-                        WHERE team_name LIKE '%utd%' OR team_name = 'Wolves';"""
+    """
+     SQL query to update the table future_fixtures_predictions_data with the ids of the teams
+    """
+    teams_id_query = """ UPDATE future_fixtures_predictions_data
+                        SET team_name = REPLACE(REPLACE(team_name, 'United', 'Utd'), 'Wolverhampton', 'Wolves')
+                        WHERE team_name LIKE '%United%' OR team_name = 'Wolverhampton';"""
     teams_id_query2 = """UPDATE future_fixtures_predictions_data AS st
                         JOIN teams AS ft ON st.home_team_id LIKE CONCAT('%', ft.team_name, '%')
                         SET st.home_team_id = ft.id;"""
