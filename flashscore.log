@@ -1,0 +1,30 @@
+2023-12-25 13:59:49,759-INFO-FILE:db_connect.py-FUNC:create_db-LINE:52-SQL file executed successfully
+2023-12-25 14:00:04,820-INFO-FILE:scraping_seasons_standings.py-FUNC:get_season_info-LINE:46-Scrapped teams and standings successfully
+2023-12-25 14:00:24,736-INFO-FILE:scraping_seasons_standings.py-FUNC:get_season_info-LINE:46-Scrapped teams and standings successfully
+2023-12-25 14:00:45,419-INFO-FILE:scraping_seasons_standings.py-FUNC:get_season_info-LINE:46-Scrapped teams and standings successfully
+2023-12-25 14:01:06,058-INFO-FILE:scraping_seasons_standings.py-FUNC:get_season_info-LINE:46-Scrapped teams and standings successfully
+2023-12-25 14:01:26,974-INFO-FILE:scraping_seasons_standings.py-FUNC:get_season_info-LINE:46-Scrapped teams and standings successfully
+2023-12-25 14:01:33,189-INFO-FILE:main.py-FUNC:main-LINE:74-Fetched teams and seasons successfully
+2023-12-25 14:01:33,189-DEBUG-FILE:insert_database.py-FUNC:use_db-LINE:33-SQL query executed successfully
+2023-12-25 14:01:33,206-DEBUG-FILE:insert_database.py-FUNC:insert_teams-LINE:73-SQL query executed successfully
+2023-12-25 14:01:33,206-DEBUG-FILE:insert_database.py-FUNC:use_db-LINE:33-SQL query executed successfully
+2023-12-25 14:01:33,206-DEBUG-FILE:insert_database.py-FUNC:use_db-LINE:33-SQL query executed successfully
+2023-12-25 14:01:33,246-DEBUG-FILE:insert_database.py-FUNC:get_team-LINE:56-Teams ID's changed successfully
+2023-12-25 14:01:33,256-DEBUG-FILE:insert_database.py-FUNC:insert_standings-LINE:90-SQL query executed successfully
+2023-12-25 14:01:33,256-INFO-FILE:main.py-FUNC:main-LINE:78-Inserted teams and seasons in the database
+2023-12-25 14:19:51,245-INFO-FILE:db_connect.py-FUNC:create_db-LINE:52-SQL file executed successfully
+2023-12-25 14:20:41,555-INFO-FILE:scraping_seasons_standings.py-FUNC:get_season_info-LINE:46-Scrapped teams and standings successfully
+2023-12-25 14:21:02,185-INFO-FILE:scraping_seasons_standings.py-FUNC:get_season_info-LINE:46-Scrapped teams and standings successfully
+2023-12-25 14:21:21,959-INFO-FILE:scraping_seasons_standings.py-FUNC:get_season_info-LINE:46-Scrapped teams and standings successfully
+2023-12-25 14:21:42,563-INFO-FILE:scraping_seasons_standings.py-FUNC:get_season_info-LINE:46-Scrapped teams and standings successfully
+2023-12-25 14:22:05,549-INFO-FILE:scraping_seasons_standings.py-FUNC:get_season_info-LINE:46-Scrapped teams and standings successfully
+2023-12-25 14:22:11,779-INFO-FILE:main.py-FUNC:main-LINE:74-Fetched teams and seasons successfully
+2023-12-25 14:26:28,695-INFO-FILE:db_connect.py-FUNC:create_db-LINE:52-SQL file executed successfully
+2023-12-25 14:27:22,189-INFO-FILE:db_connect.py-FUNC:create_db-LINE:52-SQL file executed successfully
+2023-12-25 14:27:38,565-INFO-FILE:scraping_seasons_standings.py-FUNC:get_season_info-LINE:46-Scrapped teams and standings successfully
+2023-12-25 14:27:59,505-INFO-FILE:scraping_seasons_standings.py-FUNC:get_season_info-LINE:46-Scrapped teams and standings successfully
+2023-12-25 14:28:05,785-INFO-FILE:main.py-FUNC:main-LINE:74-Fetched teams and seasons successfully
+2023-12-25 14:28:05,785-DEBUG-FILE:insert_database.py-FUNC:insert_teams-LINE:73-SQL query executed successfully
+2023-12-25 14:28:05,805-DEBUG-FILE:insert_database.py-FUNC:get_team-LINE:56-Teams ID's changed successfully
+2023-12-25 14:28:05,811-DEBUG-FILE:insert_database.py-FUNC:insert_standings-LINE:90-SQL query executed successfully
+2023-12-25 14:28:05,811-INFO-FILE:main.py-FUNC:main-LINE:78-Inserted teams and seasons in the database

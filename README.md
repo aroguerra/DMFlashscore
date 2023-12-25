@@ -18,8 +18,11 @@ Either download the zip folder and extract it or clone the repository into your 
 The DMFlashScore has a CLI based user interface.
 By running the command
 ```bash
-./DMflashscore.py *command*
+./python flashscore.py *command*
 ```
+
+Please make sure to change the password configuration in json file, and insert your MySQL password there.
+
  command           | action |
 |-------------------|-------------------------------|
 | -h, --help        | show this help message and exit |

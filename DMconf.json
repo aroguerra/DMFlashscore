@@ -20,7 +20,7 @@
   "INDICATOR": 1,
   "HOST": "localhost",
   "USER": "root",
-  "PASSWORD": "abramito",
+  "PASSWORD": "******",
   "DATABASE": "flashscore",
   "SEASON_YEAR": "2024",
   "COACH_LIST": "Coach",

@@ -1,5 +1,5 @@
-import mysql.connector
 import json
+import mysql.connector
 import logging
 
 logger = logging.getLogger('flashscore')

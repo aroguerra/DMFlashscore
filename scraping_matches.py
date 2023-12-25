@@ -116,10 +116,9 @@ def scraping_matches_results():
     """
     matches = []
     seasons_url_list = get_list_of_seasons_url(URL, HEADERS)
-    short_season_url_list = [seasons_url_list[0]]
+    short_season_url_list = [seasons_url_list[0:4]]
     match_url_list = get_matches_url_list(short_season_url_list)
-    test_match_url_list = match_url_list[0:30]  # 100 matches to exemplify
-    match_data_list = get_match_data(test_match_url_list)
+    match_data_list = get_match_data(match_url_list)
     for match in match_data_list:
         matches.append([
             datetime.strptime(match[0], DATE_FORMAT),
@@ -128,6 +127,5 @@ def scraping_matches_results():
             match[3],
             match[4]
         ])
-        # print(f'Match date: {match[0]}   Home team: {match[1]}   Home team score: {match[2]}   Away team: {match[3]}   Away team score:{match[4]}')
     logger.info("Scrapped all matches successfully")
     return matches

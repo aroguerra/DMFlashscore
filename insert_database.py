@@ -22,17 +22,6 @@ cursor = connection.cursor()
 logger = logging.getLogger('flashscore')
 
 
-def use_db():
-    """
-    SQL query to use the flashscore Database
-    """
-    with connection.cursor() as cursor:
-        teams_insert_query = "USE flashscore;"
-        cursor.execute(teams_insert_query)
-        connection.commit()
-        logger.debug("SQL query executed successfully")
-
-
 def get_team(teams_list):
     """
     Gets a list that has the teams names and retrieves the same list after changing the teams names by their ID's
@@ -40,7 +29,6 @@ def get_team(teams_list):
     :type teams_list: list
     :return: same list but with teams ID's instead of names
     """
-    use_db()
     for team in teams_list:
         teams_insert_query = """
             SELECT id
@@ -57,15 +45,13 @@ def get_team(teams_list):
     return teams_list
 
 
-# Establish a connection to MySQL
-
 def insert_teams(teams_list):
     """
     SQL query to insert teams on database
     :param teams_list: list of teams names
     :type teams_list: list
     """
-    use_db()
+    # use_db()
     with connection.cursor() as cursor:
         teams_insert_query = "INSERT INTO `teams` (`team_name`) VALUES (%s)"
         cursor.executemany(teams_insert_query, teams_list)
@@ -79,7 +65,6 @@ def insert_standings(standings_list):
     :param standings_list: list of teams standings seasons
     :type standings_list: list
     """
-    use_db()
     result = get_team(standings_list)
     with connection.cursor() as cursor:
         teams_insert_query = """INSERT INTO `standings_five_seasons` 
@@ -96,7 +81,6 @@ def insert_form_5matches(form_list):
     :param form_list: list of teams last 5 matches form
     :type form_list: list
     """
-    use_db()
     result = get_team(form_list)
     with connection.cursor() as cursor:
         teams_insert_query = """INSERT INTO `form_last_five_matches` 
@@ -113,7 +97,6 @@ def insert_players(players_list):
     :param players_list: list with the players of scrapped teams
     :type players_list: list
     """
-    use_db()
     result = get_team(players_list)
     with connection.cursor() as cursor:
         teams_insert_query = """INSERT INTO `players` 
@@ -131,7 +114,6 @@ def get_team_matches(matches_list):
     :type matches_list: list
     :return: same list but with teams ID's instead of names
     """
-    use_db()
     for match in matches_list:
         teams_insert_query = """
             SELECT id
@@ -157,7 +139,6 @@ def insert_matches(matches_list):
     :param matches_list: list of matches between the teams with results
     :type matches_list: list
     """
-    use_db()
     result = get_team_matches(matches_list)
     with connection.cursor() as cursor:
         teams_insert_query = """INSERT INTO `matches` 
@@ -174,7 +155,6 @@ def insert_future_fixtures_predictions(predictions_list):
     :param predictions_list: list of predictions of matches
     :type predictions_list: list
     """
-    use_db()
     predictions_insert_query = """INSERT INTO `future_fixtures_predictions_data`
     (`home_team_id`, `away_team_id`, `prediction_home_team_wins`, `prediction_draw`, `prediction_away_team_wind`)
     VALUES (%s, %s, %s, %s, %s)"""

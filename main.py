@@ -128,24 +128,3 @@ def main():
     else:
         logger.error("Requires an argument to perform an action")
         print("Error:Requires an argument to perform an action")
-
-    #### WITHOUT ARGPARSE ############
-    # db_connect.create_db()
-    # for url in SEASON_URLS:
-    #     result = scraping_seasons_standings.get_season_info(url)
-    #     teams.append(result[0])
-    #     # standings.append(result[1])
-    #     # form_5matches.append(scraping_form_5matches.get_team_form_5matches(url))
-    #     # players_list.append(scraping_players.get_team_page(url))
-    # matches.append(scraping_matches.scraping_matches_results())
-
-    # print(teams)
-    # print(standings)
-    # print(form_5matches)
-    # print(players_list)
-    # print('here')
-    # insert_database.insert_teams(list(set(sum(teams, []))))
-    # insert_database.insert_standings(sum(standings, []))
-    # insert_database.insert_form_5matches(form_5matches[0])
-    # insert_database.insert_players(sum(players_list[0], []))
-    # insert_database.insert_matches(matches[0]) # check for more than season
