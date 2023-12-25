@@ -188,9 +188,12 @@ def get_teams_ids():
     """
      SQL query to update the table future_fixtures_predictions_data with the ids of the teams
     """
-    teams_id_query = """ UPDATE future_fixtures_predictions_data
-                        SET team_name = REPLACE(REPLACE(team_name, 'United', 'Utd'), 'Wolverhampton', 'Wolves')
-                        WHERE team_name LIKE '%United%' OR team_name = 'Wolverhampton';"""
+    teams_home_id_query = """ UPDATE future_fixtures_predictions_data
+                        SET home_team_id = REPLACE(REPLACE(home_team_id, 'United', 'Utd'), 'Wolverhampton Wanderers', 'Wolves')
+                        WHERE home_team_id LIKE '%United%' OR home_team_id = 'Wolverhampton Wanderers';"""
+    teams_away_id_query = """ UPDATE future_fixtures_predictions_data
+                            SET away_team_id = REPLACE(REPLACE(away_team_id, 'United', 'Utd'), 'Wolverhampton Wanderers', 'Wolves')
+                            WHERE away_team_id LIKE '%United%' OR away_team_id = 'Wolverhampton Wanderers';"""
     teams_id_query2 = """UPDATE future_fixtures_predictions_data AS st
                         JOIN teams AS ft ON st.home_team_id LIKE CONCAT('%', ft.team_name, '%')
                         SET st.home_team_id = ft.id;"""
@@ -198,7 +201,8 @@ def get_teams_ids():
                          JOIN teams AS ft ON st.away_team_id LIKE CONCAT('%', ft.team_name, '%')
                          SET st.away_team_id = ft.id;"""
 
-    cursor.execute(teams_id_query)
+    cursor.execute(teams_home_id_query)
+    cursor.execute(teams_away_id_query)
     cursor.execute(teams_id_query2)
     cursor.execute(teams_id_query3)
     logger.debug("SQL query executed successfully")
