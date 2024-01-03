@@ -4,6 +4,8 @@ from selenium.webdriver.common.by import By
 import json
 import logging
 from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service as ChromeService
 
 with open('DMconf.json', 'r') as config_file:
     config = json.load(config_file)
@@ -14,9 +16,11 @@ COACH_LIST = config['COACH_LIST']
 
 logger = logging.getLogger('flashscore')
 
-service = Service('./chromedriver')
-options = webdriver.ChromeOptions()
-options.add_argument("--headless")
+#service = Service('./chromedriver')
+service = ChromeService(ChromeDriverManager().install())
+chrome_options = webdriver.ChromeOptions()
+chrome_options.add_argument('--headless')
+
 
 
 def get_season_info(season_url):
@@ -28,7 +32,8 @@ def get_season_info(season_url):
     """
     teams = []
     standings = []
-    driver = webdriver.Chrome(service=service, options=options)
+    driver = webdriver.Chrome(service=service, options=chrome_options)
+    #driver = webdriver.Chrome(service=service, options=options)
     try:
         driver.get(season_url)
         time.sleep(SLEEP10)

@@ -5,6 +5,8 @@ import json
 import logging
 from bs4 import BeautifulSoup
 from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service as ChromeService
 
 with open('DMconf.json', 'r') as config_file:
     config = json.load(config_file)
@@ -17,9 +19,12 @@ COACH_LIST = config['COACH_LIST']
 
 logger = logging.getLogger('flashscore')
 
-service = Service('./chromedriver')
-options = webdriver.ChromeOptions()
-options.add_argument("--headless")
+#service = Service('./chromedriver')
+service = ChromeService(ChromeDriverManager().install())
+
+chrome_options = webdriver.ChromeOptions()
+chrome_options.add_argument('--headless')
+
 
 
 def get_team_page(season_url):
@@ -30,7 +35,7 @@ def get_team_page(season_url):
     :return: all players list of the season
     """
     players_list = []
-    driver = webdriver.Chrome(service=service, options=options)
+    driver = webdriver.Chrome(service=service, options=chrome_options)
     driver.get(season_url)
     time.sleep(SLEEP2)
     season = driver.find_element(By.CLASS_NAME, 'dropdown__selectedValue')
@@ -38,7 +43,7 @@ def get_team_page(season_url):
         anchor_squads = driver.find_elements(By.XPATH, '//a[@class="tableCellParticipant__name"]')
         for team in anchor_squads:
             href_value = team.get_attribute('href')
-            driver = webdriver.Chrome(service=service, options=options)
+            driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
             driver.get(href_value)
             time.sleep(SLEEP2)
             anchor_squad = driver.find_element(By.XPATH, '//a[contains(@href, "/squad")]')  # button form
@@ -59,7 +64,7 @@ def get_players(anchor, team):
     """
     team_players = []
     href_value = anchor.get_attribute('href')
-    driver = webdriver.Chrome(service=service, options=options)
+    driver = webdriver.Chrome(service=service, options=chrome_options)
     driver.get(href_value)
     time.sleep(SLEEP2)
     players_table = driver.find_elements(By.CLASS_NAME, 'lineup--soccer')
