@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import json
 import logging
+from selenium.webdriver.chrome.service import Service
 
 with open('DMconf.json', 'r') as config_file:
     config = json.load(config_file)
@@ -12,6 +13,10 @@ SEASON_YEAR = config['SEASON_YEAR']
 COACH_LIST = config['COACH_LIST']
 
 logger = logging.getLogger('flashscore')
+
+service = Service('./chromedriver')
+options = webdriver.ChromeOptions()
+options.add_argument("--headless")
 
 
 def get_season_info(season_url):
@@ -23,7 +28,7 @@ def get_season_info(season_url):
     """
     teams = []
     standings = []
-    driver = webdriver.Chrome()
+    driver = webdriver.Chrome(service=service, options=options)
     try:
         driver.get(season_url)
         time.sleep(SLEEP10)

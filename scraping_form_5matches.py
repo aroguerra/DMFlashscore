@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import json
 import logging
+from selenium.webdriver.chrome.service import Service
 
 with open('DMconf.json', 'r') as config_file:
     config = json.load(config_file)
@@ -11,6 +12,10 @@ SLEEP10 = config['SLEEP10']
 SEASON_YEAR = config['SEASON_YEAR']
 
 logger = logging.getLogger('flashscore')
+
+service = Service('./chromedriver')
+options = webdriver.ChromeOptions()
+options.add_argument("--headless")
 
 
 def get_team_form_5matches(season_url):
@@ -21,14 +26,14 @@ def get_team_form_5matches(season_url):
     :return: list with all teams form for the last 5 matches
     """
     form_5matches = []
-    driver = webdriver.Chrome()
+    driver = webdriver.Chrome(service=service, options=options)
     driver.get(season_url)
     time.sleep(SLEEP10)
     season = driver.find_element(By.CLASS_NAME, 'dropdown__selectedValue')
     if SEASON_YEAR in season.text:
         anchor_form = driver.find_element(By.XPATH, '//a[contains(@href, "/form")]')  # button form
         href_value = anchor_form.get_attribute('href')
-        driver2 = webdriver.Chrome()
+        driver2 = webdriver.Chrome(service=service, options=options)
         driver2.get(href_value)
         time.sleep(SLEEP10)
         standings_table = driver2.find_elements(By.CLASS_NAME, 'ui-table__row')

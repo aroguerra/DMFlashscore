@@ -7,6 +7,8 @@ import time
 from datetime import datetime
 import json
 import logging
+from selenium.webdriver.chrome.service import Service
+
 
 with open('DMconf.json', 'r') as config_file:
     config = json.load(config_file)
@@ -20,6 +22,10 @@ SLEEP1 = config['SLEEP1']
 DATE_FORMAT = config['DATE_FORMAT']
 
 logger = logging.getLogger('flashscore')
+
+service = Service('./chromedriver')
+options = webdriver.ChromeOptions()
+options.add_argument("--headless")
 
 
 def get_list_of_seasons_url(url, headers_a):
@@ -54,7 +60,7 @@ def get_matches_url_list(url_list):
     match_url_list = []
     for link in url_list:
         indicator = INDICATOR
-        driver = webdriver.Chrome()
+        driver = webdriver.Chrome(service=service, options=options)
         driver.get(link + 'results/')
         driver.implicitly_wait(WAIT5)
         driver.maximize_window()
@@ -90,7 +96,7 @@ def get_match_data(url_list):
     """
     matches_data_list = []
     for link_url in url_list:
-        driver = webdriver.Chrome()
+        driver = webdriver.Chrome(service=service, options=options)
         driver.get(link_url)
         driver.implicitly_wait(WAIT5)
         match_summary_response = driver.page_source
