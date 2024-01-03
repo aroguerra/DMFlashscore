@@ -31,7 +31,7 @@ def get_team_form_5matches(season_url):
     """
     form_5matches = []
     #driver = webdriver.Chrome(service=service, options=options)
-    driver = webdriver.Chrome(service=service, options=chrome_options)
+    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
     driver.get(season_url)
     time.sleep(SLEEP10)
     season = driver.find_element(By.CLASS_NAME, 'dropdown__selectedValue')

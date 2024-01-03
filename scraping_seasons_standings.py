@@ -32,7 +32,7 @@ def get_season_info(season_url):
     """
     teams = []
     standings = []
-    driver = webdriver.Chrome(service=service, options=chrome_options)
+    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
     #driver = webdriver.Chrome(service=service, options=options)
     try:
         driver.get(season_url)
