@@ -8,8 +8,6 @@ logger.setLevel(logging.DEBUG)
 formatter = logging.Formatter(
     '%(asctime)s-%(levelname)s-FILE:%(filename)s-FUNC:%(funcName)s-LINE:%(lineno)d-%(message)s')
 
-
-
 with open('DMconf.json', 'r') as config_file:
     config = json.load(config_file)
 
@@ -43,6 +41,12 @@ def create_db():
                 sql_statements = sql_file.read()
 
             queries = sql_statements.split(';')
+
+            create_db_query = "CREATE DATABASE IF NOT EXISTS `{}`;"
+            use_db_query = 'USE `{}`;'
+
+            cursor.execute(create_db_query.format(DATABASE))
+            cursor.execute(use_db_query.format(DATABASE))
 
             for query in queries:
                 if query.strip():
