@@ -1,7 +1,3 @@
-DROP DATABASE IF EXISTS flashscore;
-CREATE DATABASE flashscore;
-USE flashscore;
-
 DROP TABLE IF EXISTS `matches`;
 CREATE TABLE `matches` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
