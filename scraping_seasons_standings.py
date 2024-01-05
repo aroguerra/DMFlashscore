@@ -16,11 +16,10 @@ COACH_LIST = config['COACH_LIST']
 
 logger = logging.getLogger('flashscore')
 
-#service = Service('./chromedriver')
+# service = Service('./chromedriver')
 service = ChromeService(ChromeDriverManager().install())
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--headless')
-
 
 
 def get_season_info(season_url):
@@ -33,7 +32,6 @@ def get_season_info(season_url):
     teams = []
     standings = []
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
-    #driver = webdriver.Chrome(service=service, options=options)
     try:
         driver.get(season_url)
         time.sleep(SLEEP10)

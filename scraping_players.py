@@ -19,11 +19,10 @@ COACH_LIST = config['COACH_LIST']
 
 logger = logging.getLogger('flashscore')
 
-#service = Service('./chromedriver')
+# service = Service('./chromedriver')
 service = ChromeService(ChromeDriverManager().install())
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--headless')
-
 
 
 def get_team_page(season_url):

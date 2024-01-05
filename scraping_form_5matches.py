@@ -30,7 +30,6 @@ def get_team_form_5matches(season_url):
     :return: list with all teams form for the last 5 matches
     """
     form_5matches = []
-    #driver = webdriver.Chrome(service=service, options=options)
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
     driver.get(season_url)
     time.sleep(SLEEP10)
@@ -38,7 +37,7 @@ def get_team_form_5matches(season_url):
     if SEASON_YEAR in season.text:
         anchor_form = driver.find_element(By.XPATH, '//a[contains(@href, "/form")]')  # button form
         href_value = anchor_form.get_attribute('href')
-        driver2 = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+        driver2 = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
         driver2.get(href_value)
         time.sleep(SLEEP10)
         standings_table = driver2.find_elements(By.CLASS_NAME, 'ui-table__row')
