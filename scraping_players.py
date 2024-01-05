@@ -68,6 +68,7 @@ def get_players(anchor, team):
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
     driver.set_page_load_timeout(10)
     driver.get(href_value)
+    driver.set_page_load_timeout(10)
     time.sleep(SLEEP2)
     players_table = driver.find_elements(By.CLASS_NAME, 'lineup--soccer')
     players_each_pos = players_table[PLAYER_POSITION].find_elements(By.CLASS_NAME, 'lineup__rows')
