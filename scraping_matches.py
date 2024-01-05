@@ -64,7 +64,6 @@ def get_matches_url_list(url_list):
     match_url_list = []
     for link in url_list:
         indicator = INDICATOR
-        #driver = webdriver.Chrome(service=service, options=options)
         driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
         driver.get(link + 'results/')
         driver.implicitly_wait(WAIT5)
@@ -101,7 +100,6 @@ def get_match_data(url_list):
     """
     matches_data_list = []
     for link_url in url_list:
-        #driver = webdriver.Chrome(service=service, options=options)
         driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
         driver.get(link_url)
         driver.implicitly_wait(WAIT5)
