@@ -68,6 +68,7 @@ def get_players(anchor, team):
     href_value = anchor.get_attribute('href')
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
     driver.set_page_load_timeout(30)
+    driver.set_window_size(2560, 1440)
     driver.get(href_value)
     driver.set_page_load_timeout(10)
     time.sleep(SLEEP2)
