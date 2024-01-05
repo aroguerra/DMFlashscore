@@ -7,8 +7,7 @@ from bs4 import BeautifulSoup
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service as ChromeService
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+
 
 with open('DMconf.json', 'r') as config_file:
     config = json.load(config_file)
@@ -25,7 +24,7 @@ logger = logging.getLogger('flashscore')
 service = ChromeService(ChromeDriverManager().install())
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--headless')
-chrome_options.add_argument("window-size=1920,1080")
+chrome_options.add_argument("window-size=2560,1440")
 chrome_options.add_argument("--no-sandbox")  # Bypass OS security model, REQUIRED on Linux
 chrome_options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource problems
 
@@ -47,9 +46,7 @@ def get_team_page(season_url):
         for team in anchor_squads:
             href_value = team.get_attribute('href')
             driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
-            driver.set_page_load_timeout(10)
             driver.get(href_value)
-            driver.set_page_load_timeout(10)
             time.sleep(SLEEP2)
             anchor_squad = driver.find_element(By.XPATH, '//a[contains(@href, "/squad")]')  # button form
             logger.debug('Scrapped teams page successfully')
@@ -71,8 +68,9 @@ def get_players(anchor, team):
     href_value = anchor.get_attribute('href')
     driver2 = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
     driver2.set_page_load_timeout(30)
+    driver2.implicitly_wait(10)
     driver2.get(href_value)
-    driver2.set_page_load_timeout(10)
+    driver2.set_page_load_timeout(30)
     time.sleep(SLEEP2)
     players_table = driver2.find_elements(By.CLASS_NAME, 'lineup--soccer')
     players_each_pos = players_table[PLAYER_POSITION].find_elements(By.CLASS_NAME, 'lineup__rows')
