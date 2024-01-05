@@ -15,11 +15,13 @@ SEASON_YEAR = config['SEASON_YEAR']
 
 logger = logging.getLogger('flashscore')
 
-#service = Service('./chromedriver')
+# service = Service('./chromedriver')
 service = ChromeService(ChromeDriverManager().install())
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--headless')
-
+chrome_options.add_argument("window-size=1920,1080")
+chrome_options.add_argument("--no-sandbox")  # Bypass OS security model, REQUIRED on Linux
+chrome_options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource problems
 
 
 def get_team_form_5matches(season_url):
@@ -37,7 +39,7 @@ def get_team_form_5matches(season_url):
     if SEASON_YEAR in season.text:
         anchor_form = driver.find_element(By.XPATH, '//a[contains(@href, "/form")]')  # button form
         href_value = anchor_form.get_attribute('href')
-        driver2 = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
+        driver2 = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
         driver2.get(href_value)
         time.sleep(SLEEP10)
         standings_table = driver2.find_elements(By.CLASS_NAME, 'ui-table__row')

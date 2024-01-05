@@ -20,6 +20,9 @@ logger = logging.getLogger('flashscore')
 service = ChromeService(ChromeDriverManager().install())
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--headless')
+chrome_options.add_argument("window-size=1920,1080")
+chrome_options.add_argument("--no-sandbox")  # Bypass OS security model, REQUIRED on Linux
+chrome_options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource problems
 
 
 def get_season_info(season_url):
