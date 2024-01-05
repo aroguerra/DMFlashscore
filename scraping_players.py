@@ -45,6 +45,7 @@ def get_team_page(season_url):
         for team in anchor_squads:
             href_value = team.get_attribute('href')
             driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
+            driver.set_page_load_timeout(10)
             driver.get(href_value)
             time.sleep(SLEEP2)
             anchor_squad = driver.find_element(By.XPATH, '//a[contains(@href, "/squad")]')  # button form
@@ -66,7 +67,7 @@ def get_players(anchor, team):
     team_players = []
     href_value = anchor.get_attribute('href')
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
-    driver.set_page_load_timeout(10)
+    driver.set_page_load_timeout(30)
     driver.get(href_value)
     driver.set_page_load_timeout(10)
     time.sleep(SLEEP2)
