@@ -39,7 +39,7 @@ def get_team_page(season_url):
     """
     players_list = []
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
-    driver.set_page_load_timeout(10)
+    driver.set_page_load_timeout(30)
     driver.get(season_url)
     driver.set_page_load_timeout(10)
     time.sleep(SLEEP10)
@@ -49,7 +49,7 @@ def get_team_page(season_url):
         for team in anchor_squads:
             href_value = team.get_attribute('href')
             driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
-            driver.set_page_load_timeout(10)
+            driver.set_page_load_timeout(30)
             driver.get(href_value)
             driver.set_page_load_timeout(10)
             time.sleep(SLEEP10)
@@ -72,7 +72,7 @@ def get_players(anchor, team):
     team_players = []
     href_value = anchor.get_attribute('href')
     driver2 = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
-    driver2.set_page_load_timeout(10)
+    driver2.set_page_load_timeout(30)
     driver2.get(href_value)
     driver2.set_page_load_timeout(10)
     time.sleep(SLEEP10)
