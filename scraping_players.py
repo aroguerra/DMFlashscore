@@ -23,13 +23,13 @@ COACH_LIST = config['COACH_LIST']
 logger = logging.getLogger('flashscore')
 
 #service = Service('./chromedriver')
-service = ChromeService(ChromeDriverManager().install())
+#service = ChromeService(ChromeDriverManager().install())
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--headless')
 chrome_options.add_argument("window-size=2560,1440")
 chrome_options.add_argument("--no-sandbox")  # Bypass OS security model, REQUIRED on Linux
 chrome_options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource problems
-
+chrome_options.add_argument("executable_path=chromedriver")
 
 def get_team_page(season_url):
     """
@@ -39,7 +39,7 @@ def get_team_page(season_url):
     :return: all players list of the season
     """
     players_list = []
-    driver = webdriver.Chrome(service=service, options=chrome_options)
+    driver = webdriver.Chrome(options=chrome_options)
     driver.set_page_load_timeout(10)
     driver.get(season_url)
     time.sleep(SLEEP2)
@@ -48,7 +48,7 @@ def get_team_page(season_url):
         anchor_squads = driver.find_elements(By.XPATH, '//a[@class="tableCellParticipant__name"]')
         for team in anchor_squads:
             href_value = team.get_attribute('href')
-            driver = webdriver.Chrome(service=service, options=chrome_options)
+            driver = webdriver.Chrome(options=chrome_options)
             driver.set_page_load_timeout(10)
             driver.get(href_value)
             time.sleep(SLEEP2)
@@ -70,7 +70,7 @@ def get_players(anchor, team):
     """
     team_players = []
     href_value = anchor.get_attribute('href')
-    driver2 = webdriver.Chrome(service=service, options=chrome_options)
+    driver2 = webdriver.Chrome(options=chrome_options)
     driver2.set_page_load_timeout(10)
     driver2.get(href_value)
     driver2.set_page_load_timeout(10)
