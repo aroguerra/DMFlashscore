@@ -69,12 +69,12 @@ def get_players(anchor, team):
     """
     team_players = []
     href_value = anchor.get_attribute('href')
-    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
-    driver.set_page_load_timeout(30)
-    driver.get(href_value)
-    driver.set_page_load_timeout(10)
+    driver2 = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
+    driver2.set_page_load_timeout(30)
+    driver2.get(href_value)
+    driver2.set_page_load_timeout(10)
     time.sleep(SLEEP2)
-    players_table = driver.find_elements(By.CLASS_NAME, 'lineup--soccer')
+    players_table = driver2.find_elements(By.CLASS_NAME, 'lineup--soccer')
     players_each_pos = players_table[PLAYER_POSITION].find_elements(By.CLASS_NAME, 'lineup__rows')
     for players in players_each_pos:
         players_position = players.find_elements(By.CLASS_NAME, 'lineup__title')
