@@ -22,8 +22,8 @@ COACH_LIST = config['COACH_LIST']
 
 logger = logging.getLogger('flashscore')
 
-service = Service('./chromedriver')
-#service = ChromeService(ChromeDriverManager().install())
+#service = Service('./chromedriver')
+service = ChromeService(ChromeDriverManager().install())
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--headless')
 chrome_options.add_argument("window-size=2560,1440")
@@ -73,6 +73,7 @@ def get_players(anchor, team):
     driver2 = webdriver.Chrome(service=service, options=chrome_options)
     driver2.set_page_load_timeout(10)
     driver2.get(href_value)
+    driver2.set_page_load_timeout(10)
     time.sleep(SLEEP2)
     players_table = driver2.find_elements(By.CLASS_NAME, 'lineup--soccer')
     players_each_pos = players_table[PLAYER_POSITION].find_elements(By.CLASS_NAME, 'lineup__rows')
