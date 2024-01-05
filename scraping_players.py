@@ -7,6 +7,8 @@ from bs4 import BeautifulSoup
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 with open('DMconf.json', 'r') as config_file:
     config = json.load(config_file)
@@ -47,6 +49,7 @@ def get_team_page(season_url):
             driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
             driver.set_page_load_timeout(10)
             driver.get(href_value)
+            driver.set_page_load_timeout(10)
             time.sleep(SLEEP2)
             anchor_squad = driver.find_element(By.XPATH, '//a[contains(@href, "/squad")]')  # button form
             logger.debug('Scrapped teams page successfully')
@@ -68,7 +71,6 @@ def get_players(anchor, team):
     href_value = anchor.get_attribute('href')
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
     driver.set_page_load_timeout(30)
-    driver.set_window_size(2560, 1440)
     driver.get(href_value)
     driver.set_page_load_timeout(10)
     time.sleep(SLEEP2)
