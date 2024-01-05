@@ -7,8 +7,6 @@ from bs4 import BeautifulSoup
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service as ChromeService
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 
 with open('DMconf.json', 'r') as config_file:
@@ -22,14 +20,15 @@ COACH_LIST = config['COACH_LIST']
 
 logger = logging.getLogger('flashscore')
 
-#service = Service('./chromedriver')
-#service = ChromeService(ChromeDriverManager().install())
+# service = Service('./chromedriver')
+service = ChromeService(ChromeDriverManager().install())
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--headless')
 chrome_options.add_argument("window-size=2560,1440")
 chrome_options.add_argument("--no-sandbox")  # Bypass OS security model, REQUIRED on Linux
 chrome_options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource problems
-chrome_options.add_argument("executable_path='./chromedriver'")
+#chrome_options.add_argument("executable_path='./chromedriver'")
+
 
 def get_team_page(season_url):
     """
@@ -39,19 +38,21 @@ def get_team_page(season_url):
     :return: all players list of the season
     """
     players_list = []
-    driver = webdriver.Chrome(options=chrome_options)
+    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
     driver.set_page_load_timeout(10)
     driver.get(season_url)
-    time.sleep(SLEEP2)
+    driver.set_page_load_timeout(10)
+    time.sleep(SLEEP10)
     season = driver.find_element(By.CLASS_NAME, 'dropdown__selectedValue')
     if SEASON_YEAR in season.text:
         anchor_squads = driver.find_elements(By.XPATH, '//a[@class="tableCellParticipant__name"]')
         for team in anchor_squads:
             href_value = team.get_attribute('href')
-            driver = webdriver.Chrome(options=chrome_options)
+            driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
             driver.set_page_load_timeout(10)
             driver.get(href_value)
-            time.sleep(SLEEP2)
+            driver.set_page_load_timeout(10)
+            time.sleep(SLEEP10)
             anchor_squad = driver.find_element(By.XPATH, '//a[contains(@href, "/squad")]')  # button form
             logger.debug('Scrapped teams page successfully')
             players_list.append(get_players(anchor_squad, team.text))
@@ -70,11 +71,11 @@ def get_players(anchor, team):
     """
     team_players = []
     href_value = anchor.get_attribute('href')
-    driver2 = webdriver.Chrome(options=chrome_options)
+    driver2 = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
     driver2.set_page_load_timeout(10)
     driver2.get(href_value)
     driver2.set_page_load_timeout(10)
-    time.sleep(SLEEP2)
+    time.sleep(SLEEP10)
     players_table = driver2.find_elements(By.CLASS_NAME, 'lineup--soccer')
     players_each_pos = players_table[PLAYER_POSITION].find_elements(By.CLASS_NAME, 'lineup__rows')
     for players in players_each_pos:
