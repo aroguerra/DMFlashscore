@@ -11,7 +11,6 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service as ChromeService
 
-
 with open('DMconf.json', 'r') as config_file:
     config = json.load(config_file)
 
@@ -25,11 +24,13 @@ DATE_FORMAT = config['DATE_FORMAT']
 
 logger = logging.getLogger('flashscore')
 
-#service = Service('./chromedriver')
+# service = Service('./chromedriver')
 service = ChromeService(ChromeDriverManager().install())
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--headless')
-
+chrome_options.add_argument("window-size=1920,1080")
+chrome_options.add_argument("--no-sandbox")  # Bypass OS security model, REQUIRED on Linux
+chrome_options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource problems
 
 
 def get_list_of_seasons_url(url, headers_a):
@@ -126,7 +127,7 @@ def scraping_matches_results():
     """
     matches = []
     seasons_url_list = get_list_of_seasons_url(URL, HEADERS)
-    short_season_url_list = [seasons_url_list[0:4]]
+    short_season_url_list = seasons_url_list[0:4]
     match_url_list = get_matches_url_list(short_season_url_list)
     match_data_list = get_match_data(match_url_list)
     for match in match_data_list:
