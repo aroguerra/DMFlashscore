@@ -7,6 +7,8 @@ from bs4 import BeautifulSoup
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 with open('DMconf.json', 'r') as config_file:
@@ -39,9 +41,7 @@ def get_team_page(season_url):
     """
     players_list = []
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
-    driver.set_page_load_timeout(30)
     driver.get(season_url)
-    driver.set_page_load_timeout(10)
     time.sleep(SLEEP10)
     season = driver.find_element(By.CLASS_NAME, 'dropdown__selectedValue')
     if SEASON_YEAR in season.text:
@@ -49,18 +49,22 @@ def get_team_page(season_url):
         for team in anchor_squads:
             href_value = team.get_attribute('href')
             driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
-            driver.set_page_load_timeout(30)
             driver.get(href_value)
-            driver.set_page_load_timeout(10)
             time.sleep(SLEEP10)
             anchor_squad = driver.find_element(By.XPATH, '//a[contains(@href, "/squad")]')  # button form
             logger.debug('Scrapped teams page successfully')
-            players_list.append(get_players(anchor_squad, team.text))
+            href_value2 = anchor_squad.get_attribute('href')
+            driver2 = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
+            time.sleep(SLEEP10)
+            driver2.get(href_value2)
+            players_table = driver2.find_elements(By.CLASS_NAME, 'lineup--soccer')
+            players_each_pos = players_table[PLAYER_POSITION].find_elements(By.CLASS_NAME, 'lineup__rows')
+            players_list.append(get_players(players_each_pos, team.text))
     logger.info('Scrapped team players successfully')
     return players_list
 
 
-def get_players(anchor, team):
+def get_players(players_each_pos, team):
     """
     Retrieves the list of players from a given team and his stats
     :param anchor: html anchor
@@ -70,14 +74,12 @@ def get_players(anchor, team):
     :return: players list of a single team
     """
     team_players = []
-    href_value = anchor.get_attribute('href')
-    driver2 = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
-    driver2.set_page_load_timeout(30)
-    driver2.get(href_value)
-    driver2.set_page_load_timeout(10)
-    time.sleep(SLEEP10)
-    players_table = driver2.find_elements(By.CLASS_NAME, 'lineup--soccer')
-    players_each_pos = players_table[PLAYER_POSITION].find_elements(By.CLASS_NAME, 'lineup__rows')
+    # href_value = anchor.get_attribute('href')
+    # driver2 = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
+    # time.sleep(SLEEP10)
+    # driver2.get(href_value)
+    # players_table = driver2.find_elements(By.CLASS_NAME, 'lineup--soccer')
+    # players_each_pos = players_table[PLAYER_POSITION].find_elements(By.CLASS_NAME, 'lineup__rows')
     for players in players_each_pos:
         players_position = players.find_elements(By.CLASS_NAME, 'lineup__title')
         players_each_position = players.find_elements(By.CLASS_NAME, 'lineup__row')
