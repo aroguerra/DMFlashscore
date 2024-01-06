@@ -30,6 +30,7 @@ chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument("--no-sandbox")  # Bypass OS security model, REQUIRED on Linux
 chrome_options.add_argument('--headless')
 chrome_options.add_argument('--disable-infobars')
+chrome_options.add_argument('--remote-debugging-port=9222')
 chrome_options.add_argument("window-size=1920,1080")
 chrome_options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource problems
 
@@ -128,7 +129,7 @@ def scraping_matches_results():
     """
     matches = []
     seasons_url_list = get_list_of_seasons_url(URL, HEADERS)
-    short_season_url_list = seasons_url_list[0:1]
+    short_season_url_list = seasons_url_list[0:2]
     match_url_list = get_matches_url_list(short_season_url_list)
     match_data_list = get_match_data(match_url_list)
     for match in match_data_list:

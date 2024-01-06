@@ -22,6 +22,7 @@ chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument("--no-sandbox")  # Bypass OS security model, REQUIRED on Linux
 chrome_options.add_argument('--headless')
 chrome_options.add_argument('--disable-infobars')
+chrome_options.add_argument('--remote-debugging-port=9222')
 chrome_options.add_argument("window-size=1920,1080")
 chrome_options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource problems
 
