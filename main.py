@@ -54,7 +54,7 @@ def main():
             teams.append(result[0])
             standings.append(result[1])
             form_5matches.append(scraping_form_5matches.get_team_form_5matches(url))
-            players_list.append(scraping_players.get_team_page(url))
+            # players_list.append(scraping_players.get_team_page(url))
         matches = scraping_matches.scraping_matches_results()
         predictions_list = scraping_api.fetch_fixtures_predictions()
         logger.info("Fetched all data successfully")
@@ -63,7 +63,7 @@ def main():
         insert_database.insert_matches(matches)  # check for more than season!!!!!!!!!!!
         insert_database.insert_future_fixtures_predictions(predictions_list)
         insert_database.insert_form_5matches(form_5matches[0])
-        insert_database.insert_players(sum(players_list[0], []))
+        # insert_database.insert_players(sum(players_list[0], []))
         logger.info("Inserted all in the database")
     elif args.seasons:
         print('fetch standings')

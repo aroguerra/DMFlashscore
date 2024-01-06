@@ -127,7 +127,7 @@ def scraping_matches_results():
     """
     matches = []
     seasons_url_list = get_list_of_seasons_url(URL, HEADERS)
-    short_season_url_list = seasons_url_list[0:4]
+    short_season_url_list = seasons_url_list[0:1]
     match_url_list = get_matches_url_list(short_season_url_list)
     match_data_list = get_match_data(match_url_list)
     for match in match_data_list:
