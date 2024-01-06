@@ -10,7 +10,6 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-
 with open('DMconf.json', 'r') as config_file:
     config = json.load(config_file)
 
@@ -25,11 +24,10 @@ logger = logging.getLogger('flashscore')
 # service = Service('./chromedriver')
 service = ChromeService(ChromeDriverManager().install())
 chrome_options = webdriver.ChromeOptions()
-chrome_options.add_argument('--headless')
-chrome_options.add_argument("window-size=2560,1440")
+chrome_options.add_argument('--headless=new')
+chrome_options.add_argument("window-size=1920,1080")
 chrome_options.add_argument("--no-sandbox")  # Bypass OS security model, REQUIRED on Linux
 chrome_options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource problems
-#chrome_options.add_argument("executable_path='./chromedriver'")
 
 
 def get_team_page(season_url):
@@ -53,18 +51,14 @@ def get_team_page(season_url):
             time.sleep(SLEEP10)
             anchor_squad = driver.find_element(By.XPATH, '//a[contains(@href, "/squad")]')  # button form
             logger.debug('Scrapped teams page successfully')
-            href_value2 = anchor_squad.get_attribute('href')
-            driver2 = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
-            time.sleep(SLEEP10)
-            driver2.get(href_value2)
-            players_table = driver2.find_elements(By.CLASS_NAME, 'lineup--soccer')
-            players_each_pos = players_table[PLAYER_POSITION].find_elements(By.CLASS_NAME, 'lineup__rows')
-            players_list.append(get_players(players_each_pos, team.text))
+            print('here')
+            players_list.append(get_players(anchor_squad, team.text))
+            driver.quit()
     logger.info('Scrapped team players successfully')
     return players_list
 
 
-def get_players(players_each_pos, team):
+def get_players(anchor, team):
     """
     Retrieves the list of players from a given team and his stats
     :param anchor: html anchor
@@ -74,15 +68,17 @@ def get_players(players_each_pos, team):
     :return: players list of a single team
     """
     team_players = []
-    # href_value = anchor.get_attribute('href')
-    # driver2 = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
-    # time.sleep(SLEEP10)
-    # driver2.get(href_value)
-    # players_table = driver2.find_elements(By.CLASS_NAME, 'lineup--soccer')
-    # players_each_pos = players_table[PLAYER_POSITION].find_elements(By.CLASS_NAME, 'lineup__rows')
+    href_value = anchor.get_attribute('href')
+    driver2 = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
+    time.sleep(SLEEP10)
+    driver2.get(href_value)
+    players_table = driver2.find_elements(By.CLASS_NAME, 'lineup--soccer')
+    players_each_pos = players_table[PLAYER_POSITION].find_elements(By.CLASS_NAME, 'lineup__rows')
+    print('here2')
     for players in players_each_pos:
         players_position = players.find_elements(By.CLASS_NAME, 'lineup__title')
         players_each_position = players.find_elements(By.CLASS_NAME, 'lineup__row')
+        print('here3')
         for player in players_each_position:
             if players_position[PLAYER_POSITION].text != COACH_LIST:
                 player_html = player.get_attribute('innerHTML')
@@ -99,5 +95,5 @@ def get_players(players_each_pos, team):
                     player_stats[5],
                     player_stats[6]
                 ])
-
+    driver2.quit()
     return team_players
